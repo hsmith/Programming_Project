@@ -44,7 +44,7 @@ Blake Johnson         *bjohnson293@ufl.edu* <br>
   * display notes<br>
  * Search functions (Tag, name, folder, words in text files?) (Blake)<br>
  * Initial loading (assigning notes to classes, error handling) (Matthew)<br>
- * Editing existing tags and moving folders<br>
+ * Editing existing tags and moving folders (Kevin)<br>
  * Error Checking<br>
 
 -Future:<br>
