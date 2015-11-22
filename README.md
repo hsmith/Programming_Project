@@ -17,17 +17,17 @@ Blake Johnson         *bjohnson293@ufl.edu* <br>
   * Command line menu, will act as the main program.
   * Allow users to make navigate through folders (real folders).
   * Move notes around.
-  * Assign tags to notes
-  * Display notes
+  * Assign tags to notes.
+  * Display notes.
  * Search functions (Tag, folder, keyword) (Blake)
   * Calls methods in Note class for each Note.
   * Should display basic info from the note. If searching for keywords, it should display a google like preview of matching notes.
  * Initial loading (Matthew)
-  * Check for discontinuities between masterfile and file tree
-  * Prompt user to resolve issues between file 
+  * Check for discontinuities between masterfile and file tree.
+  * Prompt user to resolve issues between file .
  * Scan folder tree for files (Kevin)
-  * Create note classes for all text files in the tree
- * Error Checking
+  * Create note classes for all text files in the tree.
+ * Error Checking (everyone will do this)
 
 -Future:<br>
  * Auto populate tags based on note contents
