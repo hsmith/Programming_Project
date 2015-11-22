@@ -10,20 +10,20 @@ Blake Johnson         *bjohnson293@ufl.edu* <br>
 
 ##NoteManager++ TODO:
 -Tasks:
- * Creating master file (Aaron)<br>
+ * Creating master file (Aaron)
   * Using note classes, populate a masterfile.
-  * An example masterfile can be found here.
- * Command line UI (Jonathan)<br>
-  * menu<br>   
-  * make folders (real folders - OS dependant)<br>
-  * make notes<br>
+  * An example masterfile can be found [here](https://github.com/mattlangford/Programming_Project/blob/master/masterfile).
+ * Command line UI (Jonathan)
+  * menu
+  * make folders (real folders - OS dependant)
+  * make notes
   * assign tags and folders to notes
-  * display notes<br>
- * Search functions (Tag, name, folder, words in text files?) (Blake)<br>
- * Initial loading (assigning notes to classes, error handling) (Matthew)<br>
- * Editing existing tags and moving folders (Kevin)<br>
- * Error Checking<br>
+  * display notes
+ * Search functions (Tag, name, folder, words in text files?) (Blake)
+ * Initial loading (assigning notes to classes, error handling) (Matthew)
+ * Editing existing tags and moving folders (Kevin)
+ * Error Checking
 
 -Future:<br>
- * Autoscan for changes<br>
- * Auto populate tags based on note contents<br>
+ * Autoscan for changes
+ * Auto populate tags based on note contents
