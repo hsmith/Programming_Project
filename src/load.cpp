@@ -84,7 +84,8 @@ std::list<Note> load(const char* filename){
 				}
 
 				Note n(note_name,"asdf",note_folders,note_tags);
-				n.debug_print();
+				//n.debug_print();
+				notes_list.push_back(n);
 			}
 		}
 		std::cout << std::endl << "Master File loaded successfully!" << std::endl;
@@ -95,6 +96,10 @@ std::list<Note> load(const char* filename){
 
 using namespace std;
 int main(){
-	load("masterfile");
+
+	list<Note> notes_list = load("masterfile");
+	list<Note>::iterator it = notes_list.begin();
+	(*it).debug_print();
 }
 
+	
