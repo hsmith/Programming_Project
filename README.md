@@ -19,6 +19,7 @@ Blake Johnson         *bjohnson293@ufl.edu* <br>
   * Move notes around.
   * Assign tags to notes.
   * Display notes.
+  * Commands: help, exit, mkdir FOLDERNAME, mv FILENAME TO_FOLDERNAME, tag add FILE TAG, tag rm FILE TAG, new FILE (run gedit with new text file, afterwards allow tag association).
  * Search functions (Tag, folder, keyword) (Blake)
   * Calls methods in Note class for each Note.
   * Should display basic info from the note. If searching for keywords, it should display a google like preview of matching notes.
