@@ -1,5 +1,5 @@
 #include "../include/global_vars.h"
-#include "../include/note.h"
+
 
 #include <iostream>
 #include <fstream>
@@ -95,11 +95,11 @@ void load(const char* filename){
 using namespace std;
 int main(){
 
-	list<Note> notes_list = load("masterfile");
-	list<Note>::iterator it = notes_list.begin();
+	load("masterfile");
+	list<Note>::iterator it = note_list.begin();
 	(*it).debug_print();
 
-	cout << (*it).compare_note(*it);
+	//cout << (*it).compare_note(*it);
 
 }
 
