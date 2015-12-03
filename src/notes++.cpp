@@ -105,6 +105,6 @@ int main(){
         
     }
     
-    cout<<"You are done!";
+    cout<<"You are done!" <<endl;
     return 1;
 }
