@@ -1,5 +1,5 @@
 //Notes++ Command Line UI
-//Creating a Menu asking the user to either:
+//Command a Menu asking the user to either:
 //1) Make a File
 //2) Make a Note
 //3) Assign Tags
@@ -9,69 +9,95 @@
 //Error Check: Make sure a proper selection is made!
 
 #include <iostream>
+#include <string>
+#include <string>
+#include <vector>
+#include <iterator>
+#include <fstream>
+#include <sstream>
+
 using namespace std;
 
 int main(){
     
-    cout<<"Welcome to Notes++: A Note Organizer" <<endl;
-    cout<<endl <<"Please type your selection from one of the options below:" <<endl;
-    
-    cout<<"1) Make a File" <<endl
-        <<"2) Make a Note" <<endl
-        <<"3) Assign Tags" <<endl
-        <<"4) Search" <<endl
-        <<"5) Exit Program" <<endl;
+    cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
+    bool continuity = true;
+    string selection = "";
+    vector<string> commands;
+    vector<string>::iterator iter;
 
     
-    int selection = 0;
-    
-    //Initiate loop, continue until option 5 to exit is chosen
-    while(selection != 5 ){
+    while(continuity){
+        cout<<endl <<"Type your command or 'help' if you need it: ";
         
-        bool isValid = false;
-        while(!isValid){
-            cout<<endl <<"Your selection: ";
-            cin>> selection;
-            
-            if(cin.good())
-            {
-                isValid = true;
+        //Record the command for inspection
+        string line, keyword;
+        getline(cin, line);
+            istringstream record(line);
+            //Reading String by String
+            while(record>>keyword){
+                commands.push_back(keyword);
             }
-            
-            else{
-                cin.clear();
-                cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                cout<<endl <<"Wrong Input! Please re-enter a proper selection!" <<endl;
-            }
+        
+        //Print out the command
+//        for(iter = commands.begin(); iter != commands.end(); iter++){
+//            cout<< *iter << " ";
+//        }
+//        cout<<endl;
+        
+        //help command is typed, provide a list of legal commands
+        if(commands[0].compare("help") == 0 && commands.size() == 1){
+            cout<<endl <<"In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands: "<<endl;
+            cout<<endl <<"---> exit: allows you to exit the program"<<endl
+            <<endl <<"---> new FILE: allows you to create a new file with name FILE"<<endl
+            <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME"<<endl
+            <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)"<<endl
+            <<endl <<"---> tag add FILE TAG: allows you to add a tag (TAG) to a specific file (FILE)"<<endl
+            <<endl <<"---> tag rm FILE TAG: allows you to remove a tag (TAG) to a specific file (FILE)"<<endl;
+            commands.clear();
+
         }
         
-        //The Selection is an integer, but is it a number between 1 and 5 (inclusive)?
-        if(selection > 5 || selection < 1){
-            continue;
+        else if(commands[0].compare("new") == 0 && commands.size() == 2){
+            cout<<"The user wants to create a new FILE with the name: "<<commands[1];
+            commands.clear();
         }
         
-        //Option 1 was Chosen
-        else if(selection == 1){
-            
+        else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
+            cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
+            commands.clear();
         }
         
-        //Option 2 was Chosen
-        else if(selection == 2){
-            
+        else if(commands[0].compare("mv") == 0 && commands.size() == 3 && commands[2].substr(0,3).compare("TO_") == 0){
+            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2].substr(3);
+            commands.clear();
         }
         
-        //Option 3 was Chosen
-        else if(selection == 3){
-            
+        else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
+            cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            commands.clear();
         }
         
-        //Option 4 was Chosen
-        else if(selection == 4){
-            
+        else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
+            cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            commands.clear();
+        }
+
+        
+        //Exit Command
+        else if(commands[0].compare("exit") == 0 && commands.size() == 1){
+            commands.clear();
+            continuity = false;
+        }
+        
+        //Invalid input, clear the "Scanner" and Print out Invalid Statement
+        else{
+            commands.clear();
+            cout<<"You have invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
         
     }
     
-    
+    cout<<"You are done!";
     return 1;
 }
