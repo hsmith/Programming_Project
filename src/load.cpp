@@ -96,7 +96,7 @@ using namespace std;
 int main(){
 
 	load("masterfile");
-	list<Note>::iterator it = note_list.begin();
+	list<Note>::iterator it = notes_list.begin();
 	//(*it).debug_print();
 
 	//cout << (*it).compare_note(*it);

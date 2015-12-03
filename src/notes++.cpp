@@ -29,22 +29,14 @@ int main(){
     while(continuity){
         cout<<endl <<"Type your command or 'help' if you need it: ";
         
-
-
         //Record the command for inspection
         string line, keyword;
-
         getline(cin, line);
-
-        istringstream record(line);
-
-
-
-        //Reading String by String
-        while(record >> keyword){
-            commands.push_back(keyword);
-            cout << "test" << endl;
-        }
+            istringstream record(line);
+            //Reading String by String
+            while(record>>keyword){
+                commands.push_back(keyword);
+            }
         
         //Print out the command
 //        for(iter = commands.begin(); iter != commands.end(); iter++){
@@ -105,6 +97,6 @@ int main(){
         
     }
     
-    cout<<"You are done!" <<endl;
+    cout<<"You are done!";
     return 1;
 }

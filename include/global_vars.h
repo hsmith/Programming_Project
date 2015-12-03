@@ -7,8 +7,10 @@
 std::list<std::string> folder_list;
 std::list<std::string> tag_list;
 
-#include "../include/note.h"
+#include "note.h"
 
-std::list<Note> note_list;
+std::list<Note> notes_list;
+
+#include "datamanager.h"
 
 #endif
