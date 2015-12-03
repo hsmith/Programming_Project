@@ -5,6 +5,8 @@
 #include <string>
 #include <list>
 
+void SaveMasterFile(std::list<Note> noteList);
+
 void SaveNote(std::string name,		//Takes data, creates note and adds it to stack.
 	std::string content,
 	std::string folder,
@@ -14,11 +16,11 @@ void SaveNote(std::string name,		//Takes data, creates note and adds it to stack
 	notes_list.push_back(n);
 	folder_list.push_back(folder);
 	std::list<std::string>::iterator tagit;
-	for (tagit = tags.begin(); tagit != tags.end(); ++noteit)
+	for (tagit = tags.begin(); tagit != tags.end(); ++tagit)
 	{
 		bool exists = 0;
 		std::list<std::string>::iterator taglistit;
-		for (taglistit = tag_list.begin(); taglistit != tag_list.end(); ++noteit)
+		for (taglistit = tag_list.begin(); taglistit != tag_list.end(); ++tagit)
 		{
 			if(*taglistit == *tagit)
 			{
@@ -43,7 +45,7 @@ void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack 
 		Note e = *noteit;
 		if(n.compare(e))
 			(
-				noteit.erase();
+				noteList.erase(noteit);
 			)
 
 		//OS specific delete file.
@@ -54,13 +56,13 @@ void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack 
 
 void SaveMasterFile(std::list<Note> noteList)
 {
-std::ofstream newfile;
+	std::ofstream newfile;
 	newfile.open("matserfile.txt", std::ofstream::trunc);
 	newfile << "#Masterfile \n \n";
 	
 	newfile << "#Tags \n";
-	std::list<std::string>::iterator it;				TODO: Change iterator names.
-	for (it = tag_list.begin(); it != tag_list.end(); ++it)				Take data from note class and store into tag and folder list.
+	std::list<std::string>::iterator it;							//	TODO: Change iterator names.
+	for (it = tag_list.begin(); it != tag_list.end(); ++it)			//	Take data from note class and store into tag and folder list.
 	{
 		newfile << *it << "\n";	
 	}
