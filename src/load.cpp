@@ -1,4 +1,4 @@
-#include "../include/global_vars.h"
+#include "../include/notes++.h"
 
 
 #include <iostream>
@@ -81,7 +81,8 @@ void load(const char* filename){
 				}
 
 				Note n(note_name,"asdf",note_folder,note_tags);
-				//n.debug_print();
+				
+				n.debug_print();
 				notes_list.push_back(n);
 				folder_list.push_back(note_folder);
 				//tag_list = note_tags;

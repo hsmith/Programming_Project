@@ -6,10 +6,10 @@
 #include <list>
 
 void SaveNote(std::string name,		//Takes data, creates note and adds it to stack.
-	std::string content,
-	std::string folder,
-	std::list<std::string> tags)
-	{
+				std::string content,
+				std::string folder,
+				std::list<std::string> tags){
+	
 	Note n(name, content, folder, tags);	
 	notes_list.push_back(n);
 	folder_list.push_back(folder);
