@@ -23,6 +23,8 @@ class Note{
 
 		void debug_print();
 
+		bool compare_note(Note n);
+
 		std::string name;
 		std::string content;
 		std::string folder;
@@ -135,6 +137,13 @@ void Note::debug_print(){
    	//}
    	std::cout << folder;
 	std::cout << std::endl << std::endl;
+}
+
+bool Note::compare_note(Note n){
+	return this->name == n.name && 
+			this->content == n.content && 
+			this->tags == n.tags && 
+			this->folder == n.folder;
 }
 
 #endif

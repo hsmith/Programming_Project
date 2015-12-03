@@ -100,7 +100,9 @@ int main(){
 	list<Note> notes_list = load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
 	(*it).debug_print();
-	
+
+	cout << (*it).compare_note(*it);
+
 }
 
 	
