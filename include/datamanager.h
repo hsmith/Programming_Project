@@ -21,7 +21,7 @@ void SaveNote(std::string name,		//Takes data, creates note and adds it to stack
 	{
 		bool exists = 0;
 		std::list<std::string>::iterator taglistit;
-		for (taglistit = tag_list.begin(); taglistit != tag_list.end(); ++tagit)
+		for (taglistit = tags_list.begin(); taglistit != tags_list.end(); ++tagit)
 		{
 			if(*taglistit == *tagit)
 			{
@@ -32,7 +32,7 @@ void SaveNote(std::string name,		//Takes data, creates note and adds it to stack
 
 		if(!exists)
 		{
-			tag_list.push_back(*tagit);
+			tags_list.push_back(*tagit);
 		}
 	}
 	SaveMasterFile(notes_list);
@@ -63,7 +63,7 @@ void SaveMasterFile(std::list<Note> noteList)
 	
 	newfile << "#Tags \n";
 	std::list<std::string>::iterator it;							//	TODO: Change iterator names.
-	for (it = tag_list.begin(); it != tag_list.end(); ++it)			//	Take data from note class and store into tag and folder list.
+	for (it = tags_list.begin(); it != tags_list.end(); ++it)			//	Take data from note class and store into tag and folder list.
 	{
 		newfile << *it << "\n";	
 	}

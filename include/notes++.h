@@ -5,7 +5,7 @@
 #include <string>
 
 std::list<std::string> folder_list;
-std::list<std::string> tag_list;
+std::list<std::string> tags_list;
 
 #include "note.h"
 
