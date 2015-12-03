@@ -60,7 +60,20 @@ int main(){
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new FILE with the name: "<<commands[1];
-            
+
+            //Check for Duplicates, print error if so
+            for(iter = notes_list.begin(); iter != notes_list.end(); iter++){
+                string compare = commands[1];
+                if (compare.compare(iter->name) != 0){
+                     continue;
+                }
+                
+                else{
+               	     cout<<"File name exists.";
+               	     break;
+                }
+            }
+
             commands.clear();
         }
         
