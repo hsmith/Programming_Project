@@ -1,4 +1,4 @@
-#include "../include/global_vars.h"
+#include "../include/notes++.h"
 
 
 #include <iostream>

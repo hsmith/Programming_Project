@@ -4,6 +4,7 @@
 #include <iostream>
 #include <string>
 #include <list>
+#include <fstream>
 
 void SaveMasterFile(std::list<Note> noteList);
 
@@ -44,9 +45,9 @@ void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack 
 	{
 		Note e = *noteit;
 		if(n.compare(e))
-			(
+			{
 				noteList.erase(noteit);
-			)
+			}
 
 		//OS specific delete file.
 	}
