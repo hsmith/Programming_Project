@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include <string>
-#include <string>
 #include <vector>
 #include <iterator>
 #include <fstream>
@@ -30,14 +29,22 @@ int main(){
     while(continuity){
         cout<<endl <<"Type your command or 'help' if you need it: ";
         
+
+
         //Record the command for inspection
         string line, keyword;
+
         getline(cin, line);
-            istringstream record(line);
-            //Reading String by String
-            while(record>>keyword){
-                commands.push_back(keyword);
-            }
+
+        istringstream record(line);
+
+
+
+        //Reading String by String
+        while(record >> keyword){
+            commands.push_back(keyword);
+            cout << "test" << endl;
+        }
         
         //Print out the command
 //        for(iter = commands.begin(); iter != commands.end(); iter++){
