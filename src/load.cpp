@@ -1,8 +1,10 @@
+#include "../include/global_vars.h"
 #include "../include/note.h"
+
 #include <iostream>
 #include <fstream>
 
-std::list<Note> load(const char* filename){
+void load(const char* filename){
 	std::cout << "Loading Master File..." << std::endl;
 
 	// List of Note objects for returning.
@@ -29,8 +31,9 @@ std::list<Note> load(const char* filename){
 				// Variables to store relevant info from line.
 				std::string note_name;
 				std::string note_path;
-				std::list<std::string> note_folders;
+				std::string note_folder;
 				std::list<std::string> note_tags;
+
 				std::string temp;
 
 				// 0 is name, 1 is folders, 2 is tags
@@ -48,16 +51,10 @@ std::list<Note> load(const char* filename){
 							if(line[i] == ';'){
 								// At the end of folders save the last folder and incr parsing.
 								if(temp.length() > 0){
-									note_folders.push_back(temp);
+									note_folder = temp;
 									temp = "";
 								}
 								parsing++;
-							}else if(line[i] == ','){
-								// At a comma save the previous folder.
-								if(temp.length() > 0){
-									note_folders.push_back(temp);
-									temp = "";
-								}
 							}else{
 								temp += line[i];
 							}
@@ -83,24 +80,21 @@ std::list<Note> load(const char* filename){
 					}
 				}
 
-				Note n(note_name,"asdf",note_folders,note_tags);
+				Note n(note_name,"asdf",note_folder,note_tags);
 				//n.debug_print();
 				notes_list.push_back(n);
-				folder_list = note_folder;
-				tag_list = note_tags;
+				folder_list.push_back(note_folder);
+				//tag_list = note_tags;
 			}
 		}
 		std::cout << std::endl << "Master File loaded successfully!" << std::endl;
 		infile.close();
 	}
-	return notes_list;
 }
 
 using namespace std;
 int main(){
 
-	list<std::string> folder_list;
-	list<std::folder> tag_list;
 	list<Note> notes_list = load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
 	(*it).debug_print();

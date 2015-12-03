@@ -2,8 +2,6 @@
 #define NOTE_H
 
 #include <iostream>
-#include <string>
-#include <list>
 
 class Note{
 	public:
