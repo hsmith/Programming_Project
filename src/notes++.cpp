@@ -84,6 +84,37 @@ int main(){
         
         else if(commands[0].compare("mv") == 0 && commands.size() == 3 && commands[2].substr(0,3).compare("TO_") == 0){
             cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2].substr(3);
+            
+            string fileName = commands[1];
+            string folderName = commands[2].substr(3);
+            
+            //Go through notes list and find all the notes in FOLDERNAME, add them to a vector
+            vector<Note> specifiedFolder;
+            
+            for(iter = notes_list.begin(); iter != notes_list.end(); iter++){
+            
+                if(iter->folder.compare("folderName") == 0){
+                    specifiedFolder.push_back(iter);
+                }
+            
+                else{
+                    continue;
+                }
+            }
+            
+            //Go through the folder and make sure that there will be no duplicate
+            for(iter = specifiedFolder.begin(); iter != specifiedFolder.end(); iter++){
+                string compare = commands[1];
+                if (compare.compare(iter->name) != 0){
+                	continue;
+                }
+                
+                else{
+               		cout<<"File name exists.";
+               		break;
+                }
+            }
+
             commands.clear();
         }
         
