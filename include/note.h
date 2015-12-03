@@ -20,7 +20,7 @@ class Note{
 		void add_folders(std::string folder);
 
 		void debug_print();
-	private:
+
 		std::string name;
 		std::string content;
 		std::list<std::string> tags;
