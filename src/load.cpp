@@ -98,6 +98,7 @@ int main(){
 
 	load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
+	//TODO: FIX THIS
 	//(*it).debug_print();
 
 	//cout << (*it).compare_note(*it);
