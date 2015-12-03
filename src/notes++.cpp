@@ -14,7 +14,7 @@
 #include <iterator>
 #include <fstream>
 #include <sstream>
-#include "../include/notes++.h"
+#include "notes++.h"
 
 using namespace std;
 
