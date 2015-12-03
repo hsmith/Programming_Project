@@ -1,5 +1,5 @@
-#ifndef GLOBO_H
-#define GLOBO_H
+#ifndef NOTEPP_H
+#define NOTEPP_H
 
 #include <list>
 #include <string>
