@@ -10,9 +10,9 @@ class Note{
 			std::string folder,
 			std::list<std::string> tags);
 
-		int search_tags(std::string tag);
-		int search_folder(std::string folder);
-		int search_keyword(std::string keyword);
+		bool search_tags(std::string tag);
+		bool search_folder(std::string folder);
+		bool search_keyword(std::string keyword);
 		
 		std::string getFileLine();
 
@@ -61,7 +61,7 @@ std::string Note::getFileLine()
 	return tagString;
 }
 
-int Note::search_tags(std::string tag){
+bool Note::search_tags(std::string tag){
 	std::list<std::string>::iterator it;
 
 	for (it = tags.begin(); it != tags.end(); ++it){
@@ -69,31 +69,24 @@ int Note::search_tags(std::string tag){
 
 		//std::cout << t << ' ';
 		if(t == tag){
-			return 1;
+			return true;
 		}
 	}
-	return 0;
+	return false;
 }
 
-/*int Note::search_folder(std::string folder){
-	std::list<std::string>::iterator it;
-
-	for (it = tags.begin(); it != tags.end(); ++it){
-		std::string f = *it;
-
-		//std::cout << f << ' ';
-		if(f == folder){
-			return 1;
-		}
+bool Note::search_folder(std::string folder){
+	if(folder == this->folder){
+		return true;
 	}
-	return 0;
-}*/
+	return false;
+}
 
-int Note::search_keyword(std::string keyword){
+bool Note::search_keyword(std::string keyword){
 	if(content.find(keyword) != std::string::npos){
-		return 1;
+		return true;
 	}
-	return 0;
+	return false;
 }
 
 void Note::add_tag(std::string tag){
