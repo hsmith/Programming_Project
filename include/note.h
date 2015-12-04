@@ -123,10 +123,7 @@ void Note::add_tag(std::string tag){
 }*/
 
 void Note::debug_print(){
-	std::cout << name;
-	std::cout << "Note name: " << this->name << std::endl;
-	/*std::cout << "test" << std::endl;
-
+	std::cout << "Note name: " << name << std::endl;
 	std::cout << "Content: " << content << std::endl;
 	std::cout << "Tags: ";
 	for(std::list<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
@@ -137,7 +134,7 @@ void Note::debug_print(){
    	//	std::cout << *it << ", ";
    	//}
    	std::cout << folder;
-	std::cout << std::endl << std::endl;*/
+	std::cout << std::endl << std::endl;
 }
 
 bool Note::compare_note(Note n){
