@@ -18,7 +18,7 @@ int main(){
     cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
     bool continuity = true;
     string selection = "";
-    string currrentFolder = "";
+    string currentFolder = "";
     vector<string> commands;
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
@@ -62,30 +62,69 @@ int main(){
 
 
         }
+        
         //Change Directory
         else if(commands[0].compare("cd") == 0 && commands.size() == 2){
-            currentFile = commands[1];
+            currentFolder = commands[1];
+            
+            if (commands[1].compare("../") == 0){
+                currentFolder = "";
+            }
+            
+            cout<<"The user has changed the directory to: "<<currentFolder <<endl;
+            commands.clear();
+            cout<<endl;
             
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
-            cout<<"The user wants to create a new FILE with the name: "<<commands[1];
-
-            //Check for Duplicates, print error if so
+            cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
+            
+            vector<Note> specifiedFolder;
+            
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                string compare = commands[1];
-                if (compare.compare((*iter_note).name) != 0){
-                     continue;
+                
+                if((*iter_note).folder.compare(currentFolder) == 0){
+                    specifiedFolder.push_back(*iter_note);
                 }
                 
                 else{
-               	     cout<< endl << "ERROR: File name already exists.";
-               	     break;
+                    continue;
                 }
             }
-
+            
+            //Go through the folder and make sure that there will be no duplicate
+            for(int i = 0; i < specifiedFolder.size(); i++){
+                string compare = commands[1];
+                if (compare.compare(specifiedFolder[i].name) != 0){
+                    continue;
+                }
+                
+                else{
+                    cout << "ERROR: File name exists."<<endl;
+                    break;
+                    
+                }
+            }
+            
             commands.clear();
             cout<<endl;
+
+//            //Check for Duplicates, print error if so
+//            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+//                string compare = commands[1];
+//                if (compare.compare((*iter_note).name ) != 0){
+//                     continue;
+//                }
+//                
+//                else{
+//               	     cout<< endl << "ERROR: File name already exists.";
+//               	     break;
+//                }
+//            }
+//
+//            commands.clear();
+//            cout<<endl;
 
         }
         
@@ -177,6 +216,12 @@ int main(){
         
         else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
             cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            
+            string file = commands[2];
+            string tag= commands[3];
+            
+            
+            
             commands.clear();
         }
         
