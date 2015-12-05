@@ -256,7 +256,7 @@ int main(){
                     continue;
                 }
                 else{
-                    (*iter_note).addTag(tag);
+                    (*iter_note).add_tag(tag);
                     break;
                 }
             }
@@ -268,7 +268,22 @@ int main(){
         
         else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
             cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            
+//            string file = commands[2];
+//            string tag= commands[3];
+//            
+//            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+//                if((*iter_note).name.compare("file") != 0 && (*iter_note).folder.compare(currentFolder) != 0){
+//                    continue;
+//                }
+//                else{
+//                    (*iter_note).remove_tag(tag);
+//                    break;
+//                }
+//            }
+            
             commands.clear();
+            cout<<endl;
         }
 
         
