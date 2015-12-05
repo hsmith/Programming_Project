@@ -84,8 +84,7 @@ int main(){
         }
         
         else if(commands[0].compare("mv") == 0 && commands.size() == 3 && commands[2].substr(0,3).compare("TO_") == 0){
-            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2].substr(3);
-            
+            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2].substr(3)<<endl;
             string fileName = commands[1];
             string folderName = commands[2].substr(3);
             
@@ -93,25 +92,36 @@ int main(){
             vector<Note> specifiedFolder;
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-            
-                if((*iter_note).folder.compare("folderName") == 0){
+                cout<<"Checking note: " <<(*iter_note).name<<"... "<<endl;
+                cout<<"Its folder is: " <<(*iter_note).folder<<endl;
+                
+                if((*iter_note).folder.compare(folderName) == 0){
                     specifiedFolder.push_back(*iter_note);
                 }
             
                 else{
+                    cout<<(*iter_note).folder<<" is not the same as " << folderName<<endl;
                     continue;
                 }
             }
-            
+            cout<<"These are the contents of: " <<folderName<<endl;
+            for(int i = 0; i<specifiedFolder.size(); i++){
+                cout<<specifiedFolder[i].name<<", ";
+            }
+            cout<<endl;
             //Go through the folder and make sure that there will be no duplicate
             for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
+                cout<<"This is the file to check for duplicates: " <<commands[1]<<endl;
                 if (compare.compare(specifiedFolder[i].name) != 0){
+                    cout<<commands[1]<< " is not the same as " <<specifiedFolder[i].name<<endl;
+
                 	continue;
                 }
                 
                 else{
-               		cout<<"File name exists.";
+                    cout <<commands[1] << "is the same as " << specifiedFolder[i].name<<endl;
+               		cout << "ERROR: File name exists.";
                		break;
                 }
             }
