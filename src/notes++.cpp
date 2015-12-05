@@ -22,6 +22,8 @@ int main(){
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
 
+    string current_folder = "";
+
     // Load masterfile and the global variables.
     load("masterfile");
     
@@ -56,13 +58,14 @@ int main(){
             <<endl <<"---> ls tags: list all tags currently being used."<<endl
             <<endl <<"---> ls folders: list all folders currently being used."<<endl;
             commands.clear();
-
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new FILE with the name: "<<commands[1];
 
-            //Check for Duplicates, print error if so
+            bool file_exists = false;
+
+            //Check for Dupli cates, print error if so
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 string compare = commands[1];
                 if (compare.compare((*iter_note).name) != 0){
@@ -71,8 +74,13 @@ int main(){
                 
                 else{
                	    cout<< endl << "ERROR: File name already exists.";
+                    file_exists = true;
                	    break;
                 }
+            }
+
+            if(!file_exists){
+                system(("gedit ../notes/" + commands[1]).c_str());
             }
 
             commands.clear();
