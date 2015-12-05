@@ -11,7 +11,7 @@ int file_tree_walker()
     //char *dot[] = {".", 0};
     //char **paths = argc > 1 ? argv + 1 : dot;
 
-	const char* s= "../ftw";
+    char s = 'a';
     FTS *tree = fts_open(s, FTS_NOCHDIR, 0);
 
     if (!tree) 

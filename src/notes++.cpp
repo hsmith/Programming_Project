@@ -18,6 +18,10 @@ int main(){
     cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
     bool continuity = true;
     string selection = "";
+<<<<<<< HEAD
+=======
+    string currentFolder = "";
+>>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
     vector<string> commands;
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
@@ -58,6 +62,7 @@ int main(){
             <<endl <<"---> ls tags: list all tags currently being used."<<endl
             <<endl <<"---> ls folders: list all folders currently being used."<<endl;
             commands.clear();
+<<<<<<< HEAD
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
@@ -66,13 +71,56 @@ int main(){
             bool file_exists = false;
 
             //Check for Duplicates, print error if so
+=======
+            cout<<endl;
+
+
+        }
+        
+        //Change Directory
+        else if(commands[0].compare("cd") == 0 && commands.size() == 2){
+            currentFolder = commands[1];
+            
+            if (commands[1].compare("../") == 0){
+                currentFolder = "";
+            }
+            
+            cout<<"The user has changed the directory to: "<<currentFolder <<endl;
+            commands.clear();
+            cout<<endl;
+            
+        }
+        
+        else if(commands[0].compare("new") == 0 && commands.size() == 2){
+            cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
+            
+            vector<Note> specifiedFolder;
+            
+>>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                
+                if((*iter_note).folder.compare(currentFolder) == 0){
+                    specifiedFolder.push_back(*iter_note);
+                }
+                
+                else{
+                    continue;
+                }
+            }
+            
+            //Go through the folder and make sure that there will be no duplicate
+            for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
+<<<<<<< HEAD
                 if (compare.compare((*iter_note).name) != 0){
+=======
+                if (compare.compare(specifiedFolder[i].name) != 0){
+>>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
                     continue;
                 }
                 
                 else{
+<<<<<<< HEAD
                	    cout<< endl << "ERROR: File name already exists.";
                     file_exists = true;
                	    break;
@@ -84,6 +132,33 @@ int main(){
             }
 
             commands.clear();
+=======
+                    cout << "ERROR: File name exists."<<endl;
+                    break;
+                    
+                }
+            }
+            
+            commands.clear();
+            cout<<endl;
+
+//            //Check for Duplicates, print error if so
+//            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+//                string compare = commands[1];
+//                if (compare.compare((*iter_note).name ) != 0){
+//                     continue;
+//                }
+//                
+//                else{
+//               	     cout<< endl << "ERROR: File name already exists.";
+//               	     break;
+//                }
+//            }
+//
+//            commands.clear();
+//            cout<<endl;
+
+>>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
         }
         
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
@@ -172,7 +247,23 @@ int main(){
         
         else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
             cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            
+            string file = commands[2];
+            string tag= commands[3];
+            
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                if((*iter_note).name.compare("file") != 0 && (*iter_note).folder.compare(currentFolder) != 0){
+                    continue;
+                }
+                else{
+                    (*iter_note).addTag(tag);
+                    break;
+                }
+            }
+            
             commands.clear();
+            cout<<endl;
+
         }
         
         else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
