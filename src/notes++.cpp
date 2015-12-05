@@ -88,6 +88,27 @@ int main(){
             string fileName = commands[1];
             string folderName = commands[2].substr(3);
             
+            //Does the file exist?
+            vector<Note> noteExistsArray;
+            
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                
+                if((*iter_note).name.compare(fileName) == 0){
+                    noteExistsArray.push_back(*iter_note);
+                }
+                
+                else{
+                    continue;
+                }
+            }
+            
+            if(noteExistsArray.size() == 0){
+                cout<<"ERROR: That note does not exist!";
+                continue;
+            }
+            
+            //if foundArray length == 0, the file does not exist!
+            
             //Go through notes list and find all the notes in FOLDERNAME, add them to a vector
             vector<Note> specifiedFolder;
             
@@ -109,6 +130,7 @@ int main(){
                 cout<<specifiedFolder[i].name<<", ";
             }
             cout<<endl;
+            
             //Go through the folder and make sure that there will be no duplicate
             for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
