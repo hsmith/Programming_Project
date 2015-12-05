@@ -17,6 +17,6 @@ std::list<std::string> tags_list;
 
 std::list<Note> notes_list;
 
-#include "datamanager.h"
+//#include "datamanager.h"
 
 #endif
