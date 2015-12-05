@@ -66,12 +66,12 @@ int main(){
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 string compare = commands[1];
                 if (compare.compare((*iter_note).name) != 0){
-                     continue;
+                    continue;
                 }
                 
                 else{
-               	     cout<< endl << "ERROR: File name already exists.";
-               	     break;
+               	    cout<< endl << "ERROR: File name already exists.";
+               	    break;
                 }
             }
 
@@ -80,6 +80,8 @@ int main(){
         
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
+            
+            system(("mkdir " + commands[1]).c_str());
             commands.clear();
         }
         
