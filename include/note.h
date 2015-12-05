@@ -94,10 +94,10 @@ void Note::add_tag(std::string tag){
 	}
 
 	// Add tag to global tag list.
-	string temp;
+	std::string temp;
 	bool tag_exists_global = true;
-	findIter = std::find(tags_list.begin(), tags_list.end(), note_folder);
-	if(findIter == folder_list.end()){
+	std::list<std::string>::iterator findIter = std::find(tags_list.begin(), tags_list.end(), tag);
+	if(findIter == tags_list.end()){
 		tag_exists_global = false;
 	}
 	if(!tag_exists_global) tags_list.push_back(temp);
