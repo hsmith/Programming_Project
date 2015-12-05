@@ -8,13 +8,8 @@
 
 //Error Check: Make sure a proper selection is made!
 
-#include <iostream>
-#include <string>
-#include <vector>
-#include <iterator>
-#include <fstream>
-#include <sstream>
-#include "notes++.h"
+#include "../include/notes++.h"
+#include "load.cpp"
 
 using namespace std;
 
@@ -24,8 +19,11 @@ int main(){
     bool continuity = true;
     string selection = "";
     vector<string> commands;
-    vector<string>::iterator iter;
+    list<string>::iterator iter;
+    list<Note>::iterator iter_note;
 
+    // Load masterfile and the global variables.
+    load("masterfile");
     
     while(continuity){
         cout<<endl <<"Type your command or 'help' if you need it: ";
@@ -48,12 +46,15 @@ int main(){
         //help command is typed, provide a list of legal commands
         if(commands[0].compare("help") == 0 && commands.size() == 1){
             cout<<endl <<"In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands: "<<endl;
-            cout<<endl <<"---> exit: allows you to exit the program"<<endl
-            <<endl <<"---> new FILE: allows you to create a new file with name FILE"<<endl
-            <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME"<<endl
-            <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)"<<endl
-            <<endl <<"---> tag add FILE TAG: allows you to add a tag (TAG) to a specific file (FILE)"<<endl
-            <<endl <<"---> tag rm FILE TAG: allows you to remove a tag (TAG) to a specific file (FILE)"<<endl;
+            cout<<endl <<"---> exit: allows you to exit the program."<<endl
+            <<endl <<"---> new FILE: allows you to create a new file with name FILE."<<endl
+            <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME."<<endl
+            <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)."<<endl
+            <<endl <<"---> tag add FILE TAG: allows you to add a tag (TAG) to a specific file (FILE)."<<endl
+            <<endl <<"---> tag rm FILE TAG: allows you to remove a tag (TAG) to a specific file (FILE)."<<endl
+            <<endl <<"---> ls notes: list all notes by name."<<endl
+            <<endl <<"---> ls tags: list all tags currently being used."<<endl
+            <<endl <<"---> ls folders: list all folders currently being used."<<endl;
             commands.clear();
 
         }
@@ -62,14 +63,14 @@ int main(){
             cout<<"The user wants to create a new FILE with the name: "<<commands[1];
 
             //Check for Duplicates, print error if so
-            for(iter = notes_list.begin(); iter != notes_list.end(); iter++){
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 string compare = commands[1];
-                if (compare.compare(iter->name) != 0){
+                if (compare.compare((*iter_note).name) != 0){
                      continue;
                 }
                 
                 else{
-               	     cout<<"File name exists.";
+               	     cout<< endl << "ERROR: File name already exists.";
                	     break;
                 }
             }
@@ -91,10 +92,10 @@ int main(){
             //Go through notes list and find all the notes in FOLDERNAME, add them to a vector
             vector<Note> specifiedFolder;
             
-            for(iter = notes_list.begin(); iter != notes_list.end(); iter++){
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
             
-                if(iter->folder.compare("folderName") == 0){
-                    specifiedFolder.push_back(iter);
+                if((*iter_note).folder.compare("folderName") == 0){
+                    specifiedFolder.push_back(*iter_note);
                 }
             
                 else{
@@ -103,9 +104,9 @@ int main(){
             }
             
             //Go through the folder and make sure that there will be no duplicate
-            for(iter = specifiedFolder.begin(); iter != specifiedFolder.end(); iter++){
+            for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
-                if (compare.compare(iter->name) != 0){
+                if (compare.compare(specifiedFolder[i].name) != 0){
                 	continue;
                 }
                 

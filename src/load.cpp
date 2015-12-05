@@ -1,10 +1,5 @@
 #include "../include/notes++.h"
 
-
-#include <iostream>
-#include <fstream>
-#include <algorithm>
-
 void load(const char* filename){
 	std::cout << "Loading Master File..." << std::endl;
 	
@@ -130,7 +125,7 @@ void load(const char* filename){
 }
 
 using namespace std;
-int main(){
+/*int main(){
 
 	load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
@@ -155,6 +150,6 @@ int main(){
 		std::cout << f << " - ";
 	}
 	std::cout << endl;
-}
+}*/
 
 	
