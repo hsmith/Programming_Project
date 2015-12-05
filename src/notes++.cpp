@@ -18,7 +18,6 @@ int main(){
     cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
     bool continuity = true;
     string selection = "";
-    string currrentFolder = "";
     vector<string> commands;
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
@@ -44,13 +43,12 @@ int main(){
 //        for(iter = commands.begin(); iter != commands.end(); iter++){
 //            cout<< *iter << " ";
 //        }
-       cout<<endl;
+//        cout<<endl;
         
         //help command is typed, provide a list of legal commands
         if(commands[0].compare("help") == 0 && commands.size() == 1){
             cout<<endl <<"In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands: "<<endl;
             cout<<endl <<"---> exit: allows you to exit the program."<<endl
-            <<endl <<"---> cd FOLDERNAME: changes directory."<<endl
             <<endl <<"---> new FILE: allows you to create a new file with name FILE."<<endl
             <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME."<<endl
             <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)."<<endl
@@ -60,17 +58,6 @@ int main(){
             <<endl <<"---> ls tags: list all tags currently being used."<<endl
             <<endl <<"---> ls folders: list all folders currently being used."<<endl;
             commands.clear();
-<<<<<<< HEAD
-=======
-            cout<<endl;
-
-
-        }
-        //Change Directory
-        else if(commands[0].compare("cd") == 0 && commands.size() == 2){
-            currentFile = commands[1];
-            
->>>>>>> aae34ebc0a4b4c8c212e1231f5f82fa86969e763
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
@@ -78,7 +65,7 @@ int main(){
 
             bool file_exists = false;
 
-            //Check for Dupli cates, print error if so
+            //Check for Duplicates, print error if so
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 string compare = commands[1];
                 if (compare.compare((*iter_note).name) != 0){
@@ -97,8 +84,6 @@ int main(){
             }
 
             commands.clear();
-            cout<<endl;
-
         }
         
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
@@ -106,8 +91,6 @@ int main(){
             
             system(("mkdir " + commands[1]).c_str());
             commands.clear();
-            cout<<endl;
-
         }
         
         else if(commands[0].compare("mv") == 0 && commands.size() == 3 && commands[2].substr(0,3).compare("TO_") == 0){
@@ -185,8 +168,6 @@ int main(){
             }
 
             commands.clear();
-            cout<<endl;
-
         }
         
         else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
@@ -197,60 +178,6 @@ int main(){
         else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
             cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
             commands.clear();
-        }
-        
-        //Print Notes
-        else if(commands[0].compare("ls") == 0 && commands[1].compare("notes") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out NOTES!" <<endl;
-            int count = 0;
-            
-            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                if(count == 3){
-                    count = 0;
-                    cout<<endl;
-                }
-                cout<<(*iter_note).name<<"  ";
-                count++;
-            }
-            commands.clear();
-            cout<<endl;
-
-        }
-
-
-        //Print Tags
-
-        else if(commands[0].compare("ls") == 0 && commands[1].compare("tags") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out TAGS!" <<endl;
-            int count  = 0;
-            for(iter = tags_list.begin(); iter != tags_list.end(); iter++){
-                if(count == 3){
-                    count = 0;
-                    cout<<endl;
-                }
-                cout<<(*iter)<<"  ";
-                count++;
-            }
-            commands.clear();
-            cout<<endl;
-
-        }
-        
-        //Print Folders
-        else if(commands[0].compare("ls") == 0 && commands[1].compare("folders") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out FOLDERS!" <<endl;
-            int count = 0;
-            
-            for(iter = folder_list.begin(); iter != folder_list.end(); iter++){
-                if(count == 3){
-                    count = 0;
-                    cout<<endl;
-                }
-                cout<<(*iter)<<"  ";
-                count++;
-            }
-            commands.clear();
-            cout<<endl;
         }
 
         
@@ -265,7 +192,6 @@ int main(){
             commands.clear();
             cout<<"You have invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
-        
         
     }
     

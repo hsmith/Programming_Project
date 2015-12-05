@@ -89,6 +89,10 @@ bool Note::search_keyword(std::string keyword){
 
 void Note::add_tag(std::string tag){
 	bool in_list = false;
+	if(this->search_tags(tag)){
+		return;
+	}
+
 	for(std::list<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
    		if(tag == *it){
    			in_list = true;
