@@ -104,45 +104,54 @@ int main(){
             
             if(noteExistsArray.size() == 0){
                 cout<<"ERROR: That note does not exist!";
+                commands.clear();
                 continue;
+
             }
             
-            //if foundArray length == 0, the file does not exist!
+            //Does the folder exist
+            vector<Note> folderExistsArray;
             
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                if((*iter_note).folder.compare(folderName) == 0){
+                    folderExistsArray.push_back(*iter_note);
+                }
+                
+                else{
+                    continue;
+                }
+            }
+            
+            if(folderExistsArray.size() == 0){
+                cout<<"ERROR: That folder does not exist!";
+                commands.clear();
+                continue;
+
+            }
+        
             //Go through notes list and find all the notes in FOLDERNAME, add them to a vector
             vector<Note> specifiedFolder;
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                cout<<"Checking note: " <<(*iter_note).name<<"... "<<endl;
-                cout<<"Its folder is: " <<(*iter_note).folder<<endl;
                 
                 if((*iter_note).folder.compare(folderName) == 0){
                     specifiedFolder.push_back(*iter_note);
                 }
             
                 else{
-                    cout<<(*iter_note).folder<<" is not the same as " << folderName<<endl;
                     continue;
                 }
             }
-            cout<<"These are the contents of: " <<folderName<<endl;
-            for(int i = 0; i<specifiedFolder.size(); i++){
-                cout<<specifiedFolder[i].name<<", ";
-            }
-            cout<<endl;
             
             //Go through the folder and make sure that there will be no duplicate
             for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
-                cout<<"This is the file to check for duplicates: " <<commands[1]<<endl;
                 if (compare.compare(specifiedFolder[i].name) != 0){
-                    cout<<commands[1]<< " is not the same as " <<specifiedFolder[i].name<<endl;
 
                 	continue;
                 }
                 
                 else{
-                    cout <<commands[1] << "is the same as " << specifiedFolder[i].name<<endl;
                		cout << "ERROR: File name exists.";
                		break;
                 }
