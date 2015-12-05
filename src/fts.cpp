@@ -12,7 +12,7 @@ int file_tree_walker()
     //char **paths = argc > 1 ? argv + 1 : dot;
 
 	const char* s= "../ftw";
-    FTS *tree = fts_open(*s, FTS_NOCHDIR, 0);
+    FTS *tree = fts_open(s, FTS_NOCHDIR, 0);
 
     if (!tree) 
 	{

@@ -1,11 +1,6 @@
 #ifndef DATAMANAGER_H
 #define DATAMANAGER_H
 
-#include <iostream>
-#include <string>
-#include <list>
-#include <fstream>
-
 void SaveMasterFile(std::list<Note> noteList);
 
 void SaveNote(std::string name,		//Takes data, creates note and adds it to stack.

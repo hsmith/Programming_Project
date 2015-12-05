@@ -1,8 +1,6 @@
 #ifndef NOTE_H
 #define NOTE_H
 
-#include <iostream>
-
 class Note{
 	public:
 		Note(std::string name,
