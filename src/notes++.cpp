@@ -18,10 +18,8 @@ int main(){
     cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
     bool continuity = true;
     string selection = "";
-<<<<<<< HEAD
-=======
+
     string currentFolder = "";
->>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
     vector<string> commands;
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
@@ -62,7 +60,6 @@ int main(){
             <<endl <<"---> ls tags: list all tags currently being used."<<endl
             <<endl <<"---> ls folders: list all folders currently being used."<<endl;
             commands.clear();
-<<<<<<< HEAD
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
@@ -71,7 +68,6 @@ int main(){
             bool file_exists = false;
 
             //Check for Duplicates, print error if so
-=======
             cout<<endl;
 
 
@@ -96,7 +92,6 @@ int main(){
             
             vector<Note> specifiedFolder;
             
->>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 
                 if((*iter_note).folder.compare(currentFolder) == 0){
@@ -111,16 +106,12 @@ int main(){
             //Go through the folder and make sure that there will be no duplicate
             for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
-<<<<<<< HEAD
                 if (compare.compare((*iter_note).name) != 0){
-=======
                 if (compare.compare(specifiedFolder[i].name) != 0){
->>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
                     continue;
                 }
                 
                 else{
-<<<<<<< HEAD
                	    cout<< endl << "ERROR: File name already exists.";
                     file_exists = true;
                	    break;
@@ -132,7 +123,6 @@ int main(){
             }
 
             commands.clear();
-=======
                     cout << "ERROR: File name exists."<<endl;
                     break;
                     
@@ -158,7 +148,6 @@ int main(){
 //            commands.clear();
 //            cout<<endl;
 
->>>>>>> d7843c7466ca80dc5322ccb88f9f97ce714b71ac
         }
         
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
