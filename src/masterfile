@@ -1,20 +1,7 @@
-#Masterfile
+#Masterfile 
+ 
+#Tags 
 
-#Tags
-Programming
-Engineering
-School
-Todo
+#Folders 
 
-#Folders
-COP_Notes
-3701_Notes
-General_Notes
-
-#Notes
-//Filename; Folder_Name; Tag1, tag2, tag3; (with no spaces)
-note1.txt;COP_Notes;Programming,Engineering,School;
-note2.txt;COP_Notes;Programming,Engineering,School;
-projectTodo.txt;COP_Notes;Programming,Engineering,School,Todo;
-digitallogiclab.txt;3701_Notes;Engineering,School;
-fincialaidnumbers.txt;General_Notes;School;
+#Notes 
