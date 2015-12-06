@@ -1,7 +1,7 @@
 #ifndef DATAMANAGER_H
 #define DATAMANAGER_H
 
-void SaveMasterFile(std::list<Note> noteList);
+void SaveMasterFile();
 
 void SaveNote(std::string name,		//Takes data, creates note and adds it to stack.
 				std::string content,
@@ -30,7 +30,7 @@ void SaveNote(std::string name,		//Takes data, creates note and adds it to stack
 			tags_list.push_back(*tagit);
 		}
 	}
-	SaveMasterFile(notes_list);
+	SaveMasterFile();
 }
 
 void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack to check is filename matches, removes note from stack.
@@ -39,7 +39,7 @@ void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack 
 	for (noteit = noteList.begin(); noteit != noteList.end(); ++noteit)
 	{
 		Note e = *noteit;
-		if(n.compare(e))
+		if(n.compare_note(e))
 			{
 				noteList.erase(noteit);
 			}
@@ -47,13 +47,13 @@ void DelNote(std::list<Note> &noteList, Note n)			//iterates through note stack 
 		//OS specific delete file.
 	}
 	
-	SaveMasterFile(notes_list);
+	SaveMasterFile();
 }
 
-void SaveMasterFile(std::list<Note> noteList)
+void SaveMasterFile()
 {
 	std::ofstream newfile;
-	newfile.open("matserfile.txt", std::ofstream::trunc);
+	newfile.open("masterfile", std::ofstream::trunc);
 	newfile << "#Masterfile \n \n";
 	
 	newfile << "#Tags \n";
@@ -73,9 +73,9 @@ void SaveMasterFile(std::list<Note> noteList)
 
 	newfile << "#Notes \n";
 	std::list<Note>::iterator noteIt;
-	for (noteIt = noteList.begin(); noteIt != noteList.end(); ++noteIt)		//Iterates through noteList per loop.
+	for (noteIt = notes_list.begin(); noteIt != notes_list.end(); ++noteIt)		//Iterates through tags_list per loop.
 	{
-		
+		newfile << (*noteIt).getFileLine();
 	}
 
 	newfile.close();
