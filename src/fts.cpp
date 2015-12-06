@@ -4,7 +4,9 @@
 #include <stdio.h> //To use perror
 #include <cerrno> //To use errno
 #include <vector>
-
+#include "../include/notes++.h"
+#include <list>
+#include "load.cpp"
 using namespace std;
 
 vector<string> file_tree_walker()
@@ -80,15 +82,40 @@ vector<string> file_tree_walker()
 }
 
 
-void list_comparer{
+void list_comparer(){
+    vector<string> fileFolder;
+    fileFolder=file_tree_walker();
+    int length=fileFolder.size();
+    string fileName;
+    string folderName;
     
+    for (int i=0; i<length; i++)
+    {
+        cout << i<<"\n\n";
+        bool missing=true;
+        fileName=fileFolder[i];
+        folderName=fileFolder[i+1];
+        i=i+1;
+        
+        for(list<Note>::iterator iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++)
+        {
+            if (((*iter_note).compare_note(fileName, folderName))) missing=false;
+        }
+        if (missing)
+        {
+            Note name(fileName, folderName);
+            notes_list.push_back(name);
+            cout <<"namsayin \n\n";
+        }
+        
+    }
     
     
     
     
 }
-
-/*int main(){
+/*
+int main(){
     vector<string> test;
     test=file_tree_walker();
     int length=test.size();
@@ -98,8 +125,9 @@ void list_comparer{
         cout << test[i]<< " ";
     }
     
+    load ("masterfile");
     
-    
+    list_comparer();
     return 0;
     
 }*/
