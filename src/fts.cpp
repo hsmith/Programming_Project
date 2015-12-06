@@ -103,6 +103,3 @@ void list_comparer{
     return 0;
     
 }*/
-//Find a way to make the root different from the starting directory
-//Find a way to not include temp files (DONE, CYKA BLYAT)
-//Find a way to show just the folder name, not the folder name and the file name
