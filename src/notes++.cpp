@@ -30,16 +30,20 @@ int main(){
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
 
+    // Consts for printing table data
+    const char separator = ' ';
+    const int width = 25;
+
     // Load masterfile and the global variables.
     load("masterfile");
     list_comparer();
     cout << endl;
-    cout << "\033[1mType your command or 'help' if you need it.\033[0m";
+    cout << "\033[1mType your command or 'help' if you need it.\033[0m"<<endl;
     while(continuity){
         if(currentFolder == ""){
-            cout<<endl << "\033[1m: \033[0m";
+            cout << "\033[1m: \033[0m";
         }else{
-            cout<<endl << "\033[1m(" <<  currentFolder << "): \033[0m";
+            cout<< "\033[1m(" <<  currentFolder << "): \033[0m";
         }
         
         //Record the command for inspection
@@ -58,6 +62,7 @@ int main(){
         if(commands[0].compare("help") == 0 && commands.size() == 1){
             cout << endl <<"   In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands "<<endl;
             cout <<"┌───────────────────┄ \033[1mnew FILE\033[0m : create FILE in the current directory. ┄─────────────────────────────────┐"<<endl
+                 <<"├──────────────────┄ \033[1mopen FILE\033[0m : opens FILE in the current directory. ┄──────────────────────────────────┤"<<endl
                  <<"├────────────────────┄ \033[1mrm FILE\033[0m : removes FILE in current directory. ┄────────────────────────────────────┤"<<endl
                  <<"├───────────┄ \033[1mmkdir FOLDERNAME\033[0m : create new folder with name FOLDERNAME. ┄───────────────────────────────┤"<<endl
                  <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
@@ -81,13 +86,13 @@ int main(){
             
             if(commands[1].compare("../") == 0){
                 currentFolder = "";
-                cout<<"Changed the directory to the root directory." <<endl;
+                //cout<<"Changed the current directory to root." <<endl;
             }else{
                 if(exists == 0){        
                     currentFolder = commands[1];
-                    cout<<"Changed the directory to: "<<currentFolder <<endl;
+                    //cout<<"Changed the current directory to: "<<currentFolder <<endl;
                 }else{
-                    cout << "Error: That folder doesn't exist yet.";
+                    cout << "Error: That folder doesn't exist yet." << endl;
                 }
             }
             commands.clear();
@@ -134,13 +139,46 @@ int main(){
 
         }
 
+        // Opens file - Seems to work
+        else if(commands[0].compare("open") == 0 && commands.size() == 2){
+            //cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
+
+            bool exists = false;
+            for(iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
+                if((*iter_note).compare_note(commands[1],currentFolder)){
+                    exists = true;
+                    break;
+                }
+            }
+            if (exists){
+                int working = system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
+                if (working != 0){
+                    cout << "Error: File does not exist.";
+                }
+            }else{
+                cout << "Error: File does not exist.";
+            }
+            
+            
+
+            commands.clear();
+            cout<<endl;
+
+        }
+
         // Remove file in the current directory - NOT YET WORKING
         else if(commands[0].compare("rm") == 0 && commands.size() == 2){
-            Note n(commands[1],currentFolder);
             for(iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
-                if((*iter_note).compare_note(n)){
-                    cout << "Removing";
-                    notes_list.erase(iter_note);
+                if((*iter_note).compare_note(commands[1],currentFolder)){
+                    cout << "Removing file." << endl;
+                    int exists = system(("rm ../notes/" + currentFolder + "/" + commands[1]).c_str());
+                    if(exists == 0){
+                        notes_list.erase(iter_note);
+                    }else{
+                        cout << "Error: Folder name already exists." << endl;
+                    }
+                    
+                    break;
                 }
             }
             commands.clear();
@@ -189,7 +227,7 @@ int main(){
             }
             
             if(noteExistsArray.size() == 0){
-                cout<<"ERROR: That note does not exist!";
+                cout<<"ERROR: That note does not exist!" << endl;
                 commands.clear();
                 continue;
 
@@ -208,7 +246,7 @@ int main(){
             }            
 
             if(folderExistsArray.size() == 0){
-                cout<<"ERROR: That folder does not exist!";
+                cout<<"ERROR: That folder does not exist!" << endl;
                 commands.clear();
                 continue;
 
@@ -257,6 +295,7 @@ int main(){
             }
 
             commands.clear();
+            cout << endl;
         }
         
         // Add a tag to a file - Seems to work
@@ -302,7 +341,7 @@ int main(){
                     }
                 }
             }
-            debug_printer();
+            //debug_printer();
             if(!note_found){
                 cout << "Error: note not found." << endl;
             }
@@ -323,7 +362,7 @@ int main(){
         else if(commands[0].compare("ls") == 0 && commands[1].compare("notes") == 0 && commands.size() == 2){
             //cout<<"The user wants to print out NOTES!" <<endl;
             int count = 0;
-            
+            //cout << "note";
             if(notes_list.size() == 0){
                 cout << "No notes were found.";
                 commands.clear();
@@ -338,14 +377,15 @@ int main(){
                 }
                 // Only print out the notes in the folder that we are in
                 if(currentFolder == ""){
-                    cout<<(*iter_note).name<<"\t\t";
+                    // This syntax prints out a formatted table.
+                    cout << left << setw(width) << setfill(separator) << (*iter_note).name;
                 }else{
-                    if((*iter_note).folder == currentFolder){
-                        cout<<(*iter_note).name<<"\t\t";
-                    }
+                    if((*iter_note).folder == currentFolder)
+                        cout << left << setw(width) << setfill(separator) << (*iter_note).name;
                 }
                 count++;
             }
+            cout << endl;
             commands.clear();
         }
 
@@ -367,9 +407,10 @@ int main(){
                     count = 0;
                     cout<<endl;
                 }
-                cout<<(*iter)<<"\t\t";
+                cout << left << setw(width) << setfill(separator) << (*iter);
                 count++;
             }
+            cout << endl;
             commands.clear();
 
         }
@@ -403,12 +444,13 @@ int main(){
                             count = 0;
                             cout<<endl;
                         }
-                        cout<<(*iter)<<"\t\t";
+                        cout << left << setw(width) << setfill(separator) << (*iter);
                         count++;
                     }
                     break;
                 }
             }
+            cout << endl;
             commands.clear();
 
         }
@@ -423,16 +465,16 @@ int main(){
                 commands.clear();
                 cout<<endl;
                 continue;
-            }
-
+            }  
             for(iter = folder_list.begin(); iter != folder_list.end(); iter++){
                 if(count == 3){
                     count = 0;
                     cout<<endl;
                 }
-                cout<<(*iter)<<"\t\t";
+                cout << left << setw(width) << setfill(separator) << (*iter);
                 count++;
             }
+            cout << endl;
             commands.clear();
         }
 
@@ -498,17 +540,18 @@ int main(){
             }
             commands.clear();
         }
+        
         //Invalid input, clear the "Scanner" and Print out Invalid Statement
         else{
+            cout<<"Error: Invalid input. Try 'help' to see a list of eligible commands."<<endl;
             commands.clear();
-            cout<<"Error: Invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
 
-        debug_printer();
+        //debug_printer();
         list_comparer();
-        debug_printer();
+        //debug_printer();
         SaveMasterFile();
-        debug_printer();
+        //debug_printer();
 
         
     }

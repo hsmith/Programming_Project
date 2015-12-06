@@ -79,7 +79,7 @@ bool Note::search_tags(std::string tag){
 		std::string t = *it;
 
 		//std::cout << t << ' ';
-		if(lower(t) == lower(tag)){
+		if(t == tag){
 			return true;
 		}
 	}

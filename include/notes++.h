@@ -13,6 +13,7 @@
 #include <fts.h>
 #include <stdio.h>
 #include <cerrno>
+#include <iomanip>
 
 std::list<std::string> folder_list;
 std::list<std::string> tags_list;

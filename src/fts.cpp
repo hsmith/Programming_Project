@@ -128,17 +128,7 @@ void list_comparer(){
         
     }
 
-
-    /*cout << endl;
-    cout << endl;
-    for(list<string>::iterator iter = folder_list.begin(); iter !=  folder_list.end(); iter++){
-        cout << *iter << endl;
-    }
-    cout << endl;
-    cout << endl;*/
-
     // Check if any changes were made
-
     if (notes_list.size() == 0 && length != 0){
         notes_list = temp_storage;
         cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
@@ -159,14 +149,19 @@ void list_comparer(){
     //Redo the folder list and tags list with new note data
     folder_list.clear();
     tags_list.clear();
-    list<string>::iterator findIter = std::find(folder_list.begin(), folder_list.end(), folderName);
 
-    if(findIter == folder_list.end()){
-        folder_list.push_back(folderName); 
-    }
+
     for(list<Note>::iterator iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
+        
+
+        list<string>::iterator findIter = std::find(folder_list.begin(), folder_list.end(), (*iter_note).folder);
+        if(findIter == folder_list.end()){
+            folder_list.push_back((*iter_note).folder); 
+        }
+        
+
         for(list<string>::iterator iter = (*iter_note).tags.begin(); iter !=  (*iter_note).tags.end(); iter++){
-            // Add tags to the list
+            // Add tags to the list but ignore repeats
             findIter = std::find(tags_list.begin(), tags_list.end(), *iter);
             if(findIter == tags_list.end()){
                 tags_list.push_back(*iter);
