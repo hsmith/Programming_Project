@@ -124,10 +124,30 @@ void load(const char* filename){
 	}
 }
 
-//using namespace std;
-/*int main(){
+std::string load_contents(Note n)
+{
+	std::string text;
+	std::string str_return= "";
+	std::ifstream text_file(("../notes/"+n.folder+"/"+n.name).c_str());
+	// ../notes/foldername/filename (given by the Note)
 
-	load("masterfile");
+	if(text_file)
+	{
+		while(getline(text_file, text))
+		{
+			str_return += text;
+			str_return += "\n";
+		}
+	}	
+
+	return str_return;
+	text_file.close();
+}
+
+using namespace std;
+int main(){
+
+	/*load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
 	
 	Note n = (*it);
@@ -149,7 +169,11 @@ void load(const char* filename){
 
 		std::cout << f << " - ";
 	}
-	std::cout << endl;
-}*/
+	std::cout << endl;*/
+
+
+	Note test("note2.txt", "COP_Notes");
+	load_contents(test);
+}
 
 	
