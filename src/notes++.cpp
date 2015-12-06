@@ -60,18 +60,18 @@ int main(){
         
         //help command is typed, provide a list of legal commands
         if(commands[0].compare("help") == 0 && commands.size() == 1){
-            cout << endl <<"   In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands "<<endl;
+            cout << endl <<"   In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands. "<<endl;
             cout <<"┌───────────────────┄ \033[1mnew FILE\033[0m : create FILE in the current directory. ┄─────────────────────────────────┐"<<endl
                  <<"├──────────────────┄ \033[1mopen FILE\033[0m : opens FILE in the current directory. ┄──────────────────────────────────┤"<<endl
                  <<"├────────────────────┄ \033[1mrm FILE\033[0m : removes FILE in current directory. ┄────────────────────────────────────┤"<<endl
                  <<"├───────────┄ \033[1mmkdir FOLDERNAME\033[0m : create new folder with name FOLDERNAME. ┄───────────────────────────────┤"<<endl
                  <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
                  <<"├──┄ \033[1mmv FILENAME TO_FOLDERNAME\033[0m : move a file: FILENAME to a folder: FOLDERNAME. ┄────────────────────────┤"<<endl               
-                 <<"├───────────┄ \033[1mtag add FILE TAG\033[0m : adds tag: TAG to a file: FILE. ┄────────────────────────────────────────┤"<<endl
-                 <<"├────────────┄ \033[1mtag rm FILE TAG\033[0m : removes a tag: TAG to file: FILE. ┄─────────────────────────────────────┤"<<endl
+                 <<"├───────────┄ \033[1mtag add FILE TAG\033[0m : adds TAG to FILE. ┄────────────────────────────────────────┤"<<endl
+                 <<"├────────────┄ \033[1mtag rm FILE TAG\033[0m : removes TAG to FILE. ┄─────────────────────────────────────┤"<<endl
                  <<"├───────────────────┄ \033[1mls notes\033[0m : lists all notes by name in current directory. ┄─────────────────────────┤"<<endl
                  <<"├────────────────────┄ \033[1mls tags\033[0m : lists all tags currently being used.  ┄─────────────────────────────────┤"<<endl
-                 <<"├───────────────┄ \033[1mls tags FILE\033[0m : lists all tags currently associated with file in current directory. ┄───┤"<<endl
+                 <<"├───────────────┄ \033[1mls tags FILE\033[0m : lists all tags currently associated with FILE in current directory. ┄───┤"<<endl
                  <<"├─────────────────┄ \033[1mls folders\033[0m : list all folders currently being used. ┄────────────────────────────────┤"<<endl
                  <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
                  <<"└───────────────────────┄ \033[1mexit\033[0m : exits the program. ┄────────────────────────────────────────────────────┘"<<endl;
@@ -131,7 +131,7 @@ int main(){
                     system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 }
             }else{
-                cout << "Error: No file extension given.";
+                cout << "ERROR: No file extension given.";
             }
 
             commands.clear();
@@ -153,10 +153,10 @@ int main(){
             if (exists){
                 int working = system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 if (working != 0){
-                    cout << "Error: File does not exist.";
+                    cout << "ERROR: File does not exist.";
                 }
             }else{
-                cout << "Error: File does not exist.";
+                cout << "ERROR: File does not exist.";
             }
             
             
@@ -175,7 +175,7 @@ int main(){
                     if(exists == 0){
                         notes_list.erase(iter_note);
                     }else{
-                        cout << "Error: Folder name already exists." << endl;
+                        cout << "ERROR: Folder name already exists." << endl;
                     }
                     
                     break;
@@ -188,18 +188,18 @@ int main(){
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
             //cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
             if(commands[1] == "notes"){
-                cout << "Error: Notes is a reserved folder name.";
+                cout << "ERROR: Notes is a reserved folder name.";
             }else{
 
                 if(currentFolder != ""){
                     // NESTED FOLDERS CURRENTLY NOT IMPLEMENTED
-                    cout << "Error: Nested folders currently not implemented.";
+                    cout << "ERROR: Nested folders currently not implemented.";
                 }else{
                     int exists = system(("mkdir ../notes/" + commands[1]).c_str());
                     if(exists == 0){
                         folder_list.push_back(commands[1]);
                     }else{
-                        cout << "Error: Folder name already exists." << endl;
+                        cout << "ERROR: Folder name already exists." << endl;
                     }
                 }
             }
@@ -336,14 +336,14 @@ int main(){
                         notes_list.erase(iter_note);
                         notes_list.push_back(n);
                     }else{
-                        cout << "Error: tag not found." << endl;
+                        cout << "ERROR: tag not found." << endl;
 
                     }
                 }
             }
             //debug_printer();
             if(!note_found){
-                cout << "Error: note not found." << endl;
+                cout << "ERROR: note not found." << endl;
             }
             
             commands.clear();
@@ -543,7 +543,7 @@ int main(){
         
         //Invalid input, clear the "Scanner" and Print out Invalid Statement
         else{
-            cout<<"Error: Invalid input. Try 'help' to see a list of eligible commands."<<endl;
+            cout<<"ERROR: Invalid input. Try 'help' to see a list of legale commands."<<endl;
             commands.clear();
         }
 
