@@ -14,7 +14,6 @@
 using namespace std;
 
 int main(){
-    
     cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
     bool continuity = true;
     string selection = "";
@@ -23,8 +22,6 @@ int main(){
     vector<string> commands;
     list<string>::iterator iter;
     list<Note>::iterator iter_note;
-
-    string current_folder = "";
 
     // Load masterfile and the global variables.
     load("masterfile");
@@ -62,109 +59,95 @@ int main(){
             commands.clear();
         }
         
-        else if(commands[0].compare("new") == 0 && commands.size() == 2){
-            cout<<"The user wants to create a new FILE with the name: "<<commands[1];
-
-            bool file_exists = false;
-
-            //Check for Duplicates, print error if so
-            cout<<endl;
-
-
-        }
-        
         //Change Directory
         else if(commands[0].compare("cd") == 0 && commands.size() == 2){
-            currentFolder = commands[1];
+
+            // Run the terminal command, see if theres an error, and act accordingly
+            int exists = system(("cd ../notes/" + commands[1]).c_str());
             
-            if (commands[1].compare("../") == 0){
+            if(commands[1].compare("../") == 0){
                 currentFolder = "";
+                cout<<"The user has changed the directory to the root directory." <<endl;
+            }else{
+                if(exists == 0){        
+                    currentFolder = commands[1];
+                    cout<<"The user has changed the directory to: "<<currentFolder <<endl;
+                    cout<<endl;
+                }else{
+                    cout << "Error: That folder doesn't exist yet.";
+                }
             }
-            
-            cout<<"The user has changed the directory to: "<<currentFolder <<endl;
             commands.clear();
-            cout<<endl;
-            
         }
         
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
             
             vector<Note> specifiedFolder;
-            
-            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                
-                if((*iter_note).folder.compare(currentFolder) == 0){
-                    specifiedFolder.push_back(*iter_note);
-                }
-                
-                else{
-                    continue;
-                }
-            }
-            
-            //Go through the folder and make sure that there will be no duplicate
-            for(int i = 0; i < specifiedFolder.size(); i++){
-                string compare = commands[1];
-                if (compare.compare((*iter_note).name) != 0){
-                if (compare.compare(specifiedFolder[i].name) != 0){
-                    continue;
-                }
-                
-                else{
-                    cout<< endl << "ERROR: File name already exists.";
-                    file_exists = true;
-                    break;
-                }
-            }
 
-            if(!file_exists){
-                system(("gedit ../notes/" + commands[1]).c_str());
-            }
-
-            commands.clear();
-                    cout << "ERROR: File name exists."<<endl;
-                    break;
+            // This will make sure the file has an extension
+            if(commands[1].find('.')!=std::string::npos){
+                //Go through the folder and make sure that there will be no duplicate
+                bool file_exists = false;
+                for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                     
+                    if((*iter_note).folder.compare(currentFolder) == 0){
+
+                        string compare = commands[1];
+
+                        if (compare.compare((*iter_note).name) != 0){
+                            continue;
+                        }else{
+                            cout<< endl << "ERROR: File name already exists.";
+                            file_exists = true;
+                            break;
+                        }
+                    }
+                    
+                    else{
+                        continue;
+                    }
+
+                } 
+
+                if(!file_exists){
+                    Note n(commands[1],"", currentFolder,{});
+                    notes_list.push_back(n);
+                    system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 }
+            }else{
+                cout << "Error: No file extension.";
             }
-            
+
             commands.clear();
             cout<<endl;
-
-//            //Check for Duplicates, print error if so
-//            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-//                string compare = commands[1];
-//                if (compare.compare((*iter_note).name ) != 0){
-//                     continue;
-//                }
-//                
-//                else{
-//                       cout<< endl << "ERROR: File name already exists.";
-//                       break;
-//                }
-//            }
-//
-//            commands.clear();
-//            cout<<endl;
 
         }
         
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
-            
-            system(("mkdir " + commands[1]).c_str());
+            if(currentFolder != ""){
+                // NESTED FOLDERS CURRENTLY NOT IMPLEMENTED
+                cout << "Error: Nested folders currently not implemented.";
+            }else{
+                int exists = system(("mkdir ../notes/" + commands[1]).c_str());
+                if(exists == 0){
+                   folder_list.push_back(commands[1]);
+                }else{
+                    cout << "Error: Folder name already exists." << endl;
+                }
+            }
             commands.clear();
         }
         
-        else if(commands[0].compare("mv") == 0 && commands.size() == 3 && commands[2].substr(0,3).compare("TO_") == 0){
-            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2].substr(3)<<endl;
+        else if(commands[0].compare("mv") == 0 && commands.size() == 3){
+            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2]<<endl;
             string fileName = commands[1];
-            string folderName = commands[2].substr(3);
+            string folderName = commands[2];
             
             //Does the file exist?
             vector<Note> noteExistsArray;
-            
+
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 
                 if((*iter_note).name.compare(fileName) == 0){
@@ -183,25 +166,27 @@ int main(){
 
             }
             
+
             //Does the folder exist
             vector<Note> folderExistsArray;
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 if((*iter_note).folder.compare(folderName) == 0){
                     folderExistsArray.push_back(*iter_note);
-                }
-                
-                else{
+                }else{
                     continue;
                 }
-            }
-            
+            }            
+
             if(folderExistsArray.size() == 0){
                 cout<<"ERROR: That folder does not exist!";
                 commands.clear();
                 continue;
 
             }
+            /*// If the folder we want to move to is the root folder then don't worry about this.
+            if (commands[2] == "../"){
+            }*/
         
             //Go through notes list and find all the notes in FOLDERNAME, add them to a vector
             vector<Note> specifiedFolder;
@@ -211,21 +196,33 @@ int main(){
                 if((*iter_note).folder.compare(folderName) == 0){
                     specifiedFolder.push_back(*iter_note);
                 }
-            
-                else{
-                    continue;
+            }
+
+            // Find which note we are looking for  
+            Note *n;          
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                string name = commands[1];
+
+                if((*iter_note).compare_note(name,currentFolder)){
+                    n = &(*iter_note);
                 }
             }
-            
+
             //Go through the folder and make sure that there will be no duplicate
+            bool file_exists = false; 
             for(int i = 0; i < specifiedFolder.size(); i++){
                 string compare = commands[1];
                 if (compare.compare(specifiedFolder[i].name) != 0){
-
+                    if(n){
+                        n->folder = commands[2]; 
+                        if(commands[2] == "../") n->folder = "";
+                    }
+                    system(("mv ../notes/" + currentFolder + "/"+commands[1] +" ../notes/" + commands[2]+"/").c_str());
                     continue;
                 }
                 
                 else{
+                    file_exists = true;
                     cout << "ERROR: File name exists.";
                     break;
                 }
@@ -280,6 +277,67 @@ int main(){
         else if(commands[0].compare("exit") == 0 && commands.size() == 1){
             commands.clear();
             continuity = false;
+        }
+
+        
+        //Print Notes
+        else if(commands[0].compare("ls") == 0 && commands[1].compare("notes") == 0 && commands.size() == 2){
+            cout<<"The user wants to print out NOTES!" <<endl;
+            int count = 0;
+            
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                if(count == 3){
+                    count = 0;
+                    cout<<endl;
+                }
+                // Only print out the notes in the folder that we are in
+                if(currentFolder == ""){
+                    cout<<(*iter_note).name<<"  ";
+                }else{
+                    if((*iter_note).folder == currentFolder){
+                        cout<<(*iter_note).name<<"  ";
+                    }
+                }
+                count++;
+            }
+            commands.clear();
+            cout<<endl;
+
+        }
+
+
+        //Print Tags
+        else if(commands[0].compare("ls") == 0 && commands[1].compare("tags") == 0 && commands.size() == 2){
+            cout<<"The user wants to print out TAGS!" <<endl;
+            int count  = 0;
+            for(iter = tags_list.begin(); iter != tags_list.end(); iter++){
+                if(count == 3){
+                    count = 0;
+                    cout<<endl;
+                }
+                cout<<(*iter)<<"  ";
+                count++;
+            }
+            commands.clear();
+            cout<<endl;
+
+        }
+        
+        //Print Folders
+        else if(commands[0].compare("ls") == 0 && commands[1].compare("folders") == 0 && commands.size() == 2){
+            cout<<"The user wants to print out FOLDERS!" <<endl;
+            int count = 0;
+            
+            for(iter = folder_list.begin(); iter != folder_list.end(); iter++){
+                if(count == 3){
+                    count = 0;
+                    cout<<endl;
+                }
+                cout<<(*iter)<<"  ";
+                count++;
+            }
+            commands.clear();
+            cout<<endl;
         }
         
         //Invalid input, clear the "Scanner" and Print out Invalid Statement

@@ -7,6 +7,9 @@ class Note{
 			std::string content,
 			std::string folder,
 			std::list<std::string> tags);
+		Note(std::string name,
+			std::string folder);
+
 
 		bool search_tags(std::string tag);
 		bool search_folder(std::string folder);
@@ -15,7 +18,6 @@ class Note{
 		std::string getFileLine();
 
 		void add_tag(std::string tag);
-		void add_folder(std::string folder);
 
 		void debug_print();
 
@@ -37,6 +39,15 @@ Note::Note(std::string name,
 	this->name = name;
 	this->content = content;
 	this->tags = tags;
+	this->folder = folder;
+
+}
+Note::Note(std::string name,
+		  std::string folder)
+{
+	
+	this->name = name;
+	this->content = "";
 	this->folder = folder;
 
 }
@@ -113,19 +124,6 @@ void Note::add_tag(std::string tag){
 		tags.push_back(tag);
 	}
 }
-
-/*void Note::add_folder(std::string folder){
-	bool in_list = false;
-	for(std::list<std::string>::iterator it = folder.begin(); it != folder.end(); ++it){
-   		if(folder == *it){
-   			in_list = true;
-   			break;
-   		}
-	}
-	if(!in_list){
-		folder.push_back(folder);
-	}
-}*/
 
 void Note::debug_print(){
 	std::cout << "Note name: " << name << std::endl;
