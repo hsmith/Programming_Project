@@ -403,21 +403,21 @@ int main(){
 
                 // Load all notes contents from text files and search through everything
                 n.content = load_contents(n);
-                if(n.search_tags(keyword) || lower(n.folder) == lower(keyword) || lower(n.name) == lower(keyword) || n.search_keyword(keyword)){
+                if(n.search_tags(keyword) || n.search_folder(keyword) || n.search_name(keyword) || n.search_content(keyword)){
                     if(n.search_tags(keyword)){
                         cout << endl << "═ \033[1mTAG MATCH\033[0m ══════════════════════════════════════" << endl;
-                    }else if(lower(n.folder) == lower(keyword)){
+                    }else if(n.search_folder(keyword)){
                         cout << endl << "═ \033[1mFOLDER MATCH\033[0m ═══════════════════════════════════" << endl;
-                    }else if(lower(n.name) == lower(keyword)){
+                    }else if(n.search_name(keyword)){
                         cout << endl << "═ \033[1mNAME MATCH\033[0m ═════════════════════════════════════" << endl;
-                    }else if(n.search_keyword(keyword)){
+                    }else if(n.search_content(keyword)){
                         cout << endl << "═ \033[1mBODY MATCH\033[0m ═════════════════════════════════════" << endl;
                     }
                     cout << "Filename: '" << n.name << "', in folder: '" << n.folder << "'" <<endl;
                     cout << "──────────────────────────────────────────────────" << endl;
 
                     // If we found the keyword in the body, highlight it
-                    if(n.search_keyword(keyword)){
+                    if(n.search_content(keyword)){
                         int keyword_location = n.content.find(" " + keyword + " ")+1;
 
                         // This takes care of the rare cases when the keyword is too close to the edge to display
@@ -426,11 +426,13 @@ int main(){
                         if(keyword_location < 10) pre_offset = keyword_location;
                         if((n.content.length()-keyword_location) < post_offset) post_offset = (n.content.length()-keyword_location) ;
 
+                        // TODO remove ... if body text doesn't require them
                         cout << "..." << n.content.substr(keyword_location-pre_offset,pre_offset) 
                          << "\033[107;30m" << n.content.substr(keyword_location,keyword.length()) << "\033[0m"
                          << n.content.substr(keyword_location+keyword.length(),post_offset) << "..." << endl;
                     }else{
-                        cout << n.content.substr(0,50) << "..." << endl;
+                        // The random substr numbers are to get the display to line up with the body matching print out.
+                        cout << n.content.substr(0,50+keyword.length()+10+3) << "..." << endl;
                     }
                     cout << "══════════════════════════════════════════════════" << endl;
 

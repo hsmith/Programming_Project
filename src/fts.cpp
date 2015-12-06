@@ -97,13 +97,22 @@ void list_comparer(){
         {
             Note n(fileName, folderName);
             temp_storage.push_back(n);
-            cout << endl << endl << "NOTICE: Discrepencies were found and corrected." << endl << endl;
         }
         
     }
 
-    notes_list = temp_storage;
-    
+    // Check if any changes were made
+    list<Note>::iterator iter_note = notes_list.begin();
+    for(list<Note>::iterator temp_note = temp_storage.begin(); temp_note != temp_storage.end(); temp_note++){
+        //cout << (*temp_note).name << " - " << (*iter_note).name << endl;
+        if(!(*temp_note).compare_note(*iter_note)){
+            notes_list = temp_storage;
+            cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
+
+            break;
+        }
+        iter_note++;
+    }
     
     
     

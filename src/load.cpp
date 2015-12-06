@@ -1,11 +1,10 @@
 #include "../include/notes++.h"
 
 void load(const char* filename){
-	std::cout << "Loading Master File..." << std::endl;
+	std::cout << "\033[3m> Loading Master File...\033[0m" << std::endl;
 	
 	// Load file line by line.
 	std::ifstream infile(filename);
-	std::cout << "Master File Loaded!" << std::endl << std::endl;
 	std::string line;
 
 	// Used for finding elements in lists.
@@ -115,11 +114,11 @@ void load(const char* filename){
 
 				Note n(note_name,"asdf",note_folder,note_tags);
 				
-				n.debug_print();
+				//n.debug_print();
 				notes_list.push_back(n);
 			}
 		}
-		std::cout << std::endl << "Master File loaded successfully!" << std::endl;
+		std::cout << "\033[3m> Master File loaded successfully!\033[0m" << std::endl;
 		infile.close();
 	}
 }
@@ -144,10 +143,10 @@ std::string load_contents(Note n)
 	text_file.close();
 }
 
-using namespace std;
-int main(){
+//using namespace std;
+/*int main(){
 
-	/*load("masterfile");
+	load("masterfile");
 	list<Note>::iterator it = notes_list.begin();
 	
 	Note n = (*it);
@@ -169,7 +168,7 @@ int main(){
 
 		std::cout << f << " - ";
 	}
-	std::cout << endl;*/
+	std::cout << endl;
 
 
 	Note test("note2.txt", "COP_Notes");
@@ -177,3 +176,4 @@ int main(){
 }
 
 	
+*/
