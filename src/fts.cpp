@@ -1,5 +1,3 @@
-
-
 using namespace std;
 
 vector<string> file_tree_walker()
@@ -72,6 +70,10 @@ vector<string> file_tree_walker()
 
 void list_comparer(){
     vector<string> fileFolder;
+
+    // Store all changes here so that we can simultaniously remove entries that don't exist and add new files that we dont have
+    list<Note> temp_storage;
+
     fileFolder=file_tree_walker();
     int length=fileFolder.size();
     string fileName;
@@ -86,16 +88,21 @@ void list_comparer(){
         
         for(list<Note>::iterator iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++)
         {
-            if (((*iter_note).compare_note(fileName, folderName))) missing=false;
+            if (((*iter_note).compare_note(fileName, folderName))){
+                missing=false;
+                temp_storage.push_back(*iter_note);
+            }
         }
         if (missing)
         {
-            Note name(fileName, folderName);
-            notes_list.push_back(name);
-            cout << "NOTICE: Discrepencies were found and corrected." << endl;
+            Note n(fileName, folderName);
+            temp_storage.push_back(n);
+            cout << endl << endl << "NOTICE: Discrepencies were found and corrected." << endl << endl;
         }
         
     }
+
+    notes_list = temp_storage;
     
     
     
