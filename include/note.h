@@ -20,6 +20,7 @@ class Note{
 		void debug_print();
 
 		bool compare_note(Note n);
+		bool compare_note(std::string name, std::string folder);
 
 		std::string name;
 		std::string content;
@@ -94,14 +95,13 @@ void Note::add_tag(std::string tag){
 	}
 
 	// Add tag to global tag list.
-	std::string temp;
 	bool tag_exists_global = true;
 	std::list<std::string>::iterator findIter = std::find(tags_list.begin(), tags_list.end(), tag);
 	if(findIter == tags_list.end()){
 		tag_exists_global = false;
 	}
-	if(!tag_exists_global) tags_list.push_back(temp);
-		
+	if(!tag_exists_global) tags_list.push_back(tag);
+
 	// Add tag to local Note tag list							
 	for(std::list<std::string>::iterator it = tags.begin(); it != tags.end(); ++it){
    		if(tag == *it){
@@ -148,6 +148,11 @@ bool Note::compare_note(Note n){
 			this->tags == n.tags && 
 			this->folder == n.folder;
 }
+bool Note::compare_note(std::string name, std::string folder){
+	return this->name == name && 
+			this->folder == folder;
+}
+
 
 #endif
 
