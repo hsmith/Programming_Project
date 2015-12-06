@@ -1,12 +1,5 @@
-#include <fts.h>
-#include <string.h>
-#include <iostream>
-#include <stdio.h> //To use perror
-#include <cerrno> //To use errno
-#include <vector>
-#include "../include/notes++.h"
-#include <list>
-#include "load.cpp"
+
+
 using namespace std;
 
 vector<string> file_tree_walker()
@@ -14,9 +7,6 @@ vector<string> file_tree_walker()
     //char *dot[] = {".", 0};
     //char **paths = argc > 1 ? argv + 1 : dot;
 
-
-
-   
     vector<string> data;
     
     char*s[2];
@@ -24,8 +14,6 @@ vector<string> file_tree_walker()
     s[1]= NULL;
     FTS *tree = fts_open(s, FTS_NOCHDIR, 0);
     
-
-
     if (!tree) 
 	{
         perror("fts_open");
@@ -42,11 +30,11 @@ vector<string> file_tree_walker()
 		}
         	else if (node->fts_info & FTS_F) 
 		{
-            		printf("Got file named %s at depth %d, "
+            		/*printf("Got file named %s at depth %d, "
                 	"accessible via %s from the current directory "
 		        "or via %s from the original starting directory\n\n",
 		        node->fts_name, node->fts_level,
-		        node->fts_accpath, node->fts_path);
+		        node->fts_accpath, node->fts_path);*/
                 data.push_back(node->fts_name);
            
             string directory=node->fts_accpath;
@@ -91,7 +79,6 @@ void list_comparer(){
     
     for (int i=0; i<length; i++)
     {
-        cout << i<<"\n\n";
         bool missing=true;
         fileName=fileFolder[i];
         folderName=fileFolder[i+1];
@@ -105,7 +92,7 @@ void list_comparer(){
         {
             Note name(fileName, folderName);
             notes_list.push_back(name);
-            cout <<"namsayin \n\n";
+            cout << "NOTICE: Discrepencies were found and corrected." << endl;
         }
         
     }

@@ -10,6 +10,7 @@
 
 #include "../include/notes++.h"
 #include "load.cpp"
+#include "fts.cpp"
 
 using namespace std;
 
@@ -25,6 +26,7 @@ int main(){
 
     // Load masterfile and the global variables.
     load("masterfile");
+    list_comparer();
     
     while(continuity){
         cout<<endl <<"Type your command or 'help' if you need it: ";
@@ -59,7 +61,7 @@ int main(){
             commands.clear();
         }
         
-        //Change Directory
+        //Change Directory - Seems to work
         else if(commands[0].compare("cd") == 0 && commands.size() == 2){
 
             // Run the terminal command, see if theres an error, and act accordingly
@@ -80,6 +82,7 @@ int main(){
             commands.clear();
         }
         
+        // Make new file in the current directory - Seems to work
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
             
@@ -111,7 +114,7 @@ int main(){
                 } 
 
                 if(!file_exists){
-                    Note n(commands[1],"", currentFolder,{});
+                    Note n(commands[1],currentFolder);
                     notes_list.push_back(n);
                     system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 }
@@ -124,6 +127,7 @@ int main(){
 
         }
         
+        // Make new folder - Seems to work
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
             cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
             if(currentFolder != ""){
@@ -140,6 +144,7 @@ int main(){
             commands.clear();
         }
         
+        // Moving files, needs more test cases
         else if(commands[0].compare("mv") == 0 && commands.size() == 3){
             cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2]<<endl;
             string fileName = commands[1];
@@ -345,6 +350,9 @@ int main(){
             commands.clear();
             cout<<"You have invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
+        list_comparer();
+        SaveMasterFile();
+
         
     }
     
