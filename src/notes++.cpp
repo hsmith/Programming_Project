@@ -34,30 +34,29 @@ int main(){
         //Record the command for inspection
         string line, keyword;
         getline(cin, line);
-            istringstream record(line);
-            //Reading String by String
-            while(record>>keyword){
-                commands.push_back(keyword);
-            }
+        istringstream record(line);
+        //Reading String by String
+        while(record>>keyword){
+            commands.push_back(keyword);
+        }
         
-        //Print out the command
-//        for(iter = commands.begin(); iter != commands.end(); iter++){
-//            cout<< *iter << " ";
-//        }
-//        cout<<endl;
+        // Check for discrepencies
+        list_comparer();
         
         //help command is typed, provide a list of legal commands
         if(commands[0].compare("help") == 0 && commands.size() == 1){
             cout<<endl <<"In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands: "<<endl;
             cout<<endl <<"---> exit: allows you to exit the program."<<endl
-            <<endl <<"---> new FILE: allows you to create a new file with name FILE."<<endl
+            <<endl <<"---> new FILE: allows you to create a new file with name FILE in current directory."<<endl
+            <<endl <<"---> rm FILE: removes file with name FILE in current directory."<<endl
             <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME."<<endl
             <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)."<<endl
             <<endl <<"---> tag add FILE TAG: allows you to add a tag (TAG) to a specific file (FILE)."<<endl
             <<endl <<"---> tag rm FILE TAG: allows you to remove a tag (TAG) to a specific file (FILE)."<<endl
             <<endl <<"---> ls notes: list all notes by name."<<endl
             <<endl <<"---> ls tags: list all tags currently being used."<<endl
-            <<endl <<"---> ls folders: list all folders currently being used."<<endl;
+            <<endl <<"---> ls folders: list all folders currently being used."<<endl
+            <<endl <<"---> search KEYWORD: searchs all notes (name, tags, folders, or body text) for KEYWORD."<<endl;
             commands.clear();
         }
         
@@ -106,10 +105,6 @@ int main(){
                             break;
                         }
                     }
-                    
-                    else{
-                        continue;
-                    }
 
                 } 
 
@@ -124,6 +119,12 @@ int main(){
 
             commands.clear();
             cout<<endl;
+
+        }
+
+        // Remove file in the current directory - NOT YET WORKING
+        else if(commands[0].compare("rm") == 0 && commands.size() == 2){
+            cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
 
         }
         
@@ -223,7 +224,6 @@ int main(){
                         if(commands[2] == "../") n->folder = "";
                     }
                     system(("mv ../notes/" + currentFolder + "/"+commands[1] +" ../notes/" + commands[2]+"/").c_str());
-                    continue;
                 }
                 
                 else{
@@ -236,17 +236,15 @@ int main(){
             commands.clear();
         }
         
+        // Add a tag to a file - Seems to work
         else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
             cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
             
             string file = commands[2];
-            string tag= commands[3];
+            string tag  = commands[3];
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                if((*iter_note).name.compare("file") != 0 && (*iter_note).folder.compare(currentFolder) != 0){
-                    continue;
-                }
-                else{
+                if((*iter_note).name == file && (*iter_note).folder == currentFolder){
                     (*iter_note).add_tag(tag);
                     break;
                 }
@@ -257,6 +255,7 @@ int main(){
 
         }
         
+        // Remove tag from file, not currenlty implemented
         else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
             cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
             
@@ -344,7 +343,12 @@ int main(){
             commands.clear();
             cout<<endl;
         }
-        
+
+        else if(commands[0].compare("debug") == 0){
+            for(note_iter = folder_list.begin(); note_iter != folder_list.end(); note_iter++){
+                (*note_iter).debug_print();
+            }
+        }
         //Invalid input, clear the "Scanner" and Print out Invalid Statement
         else{
             commands.clear();
