@@ -32,6 +32,18 @@ std::string lower(std::string s){
 
 std::list<Note> notes_list;
 
+void debug_printer(){
+    std::cout << std::endl;
+    std::cout << std::endl; 
+    for(std::list<Note>::iterator iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+       (*iter_note).debug_print();
+    }
+    std::cout << std::endl;
+    std::cout << std::endl;
+}
+
+
+
 #include "datamanager.h"
 
 
