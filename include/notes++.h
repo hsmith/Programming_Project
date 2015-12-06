@@ -17,15 +17,22 @@
 std::list<std::string> folder_list;
 std::list<std::string> tags_list;
 
+
+//GENERAL METHOD DEFS
+std::string lower(std::string s){
+    // Loop through a string and return it lowercase
+    std::string lower_case = "";
+
+    for (std::string::size_type i=0; i<s.length(); ++i)
+        lower_case += std::tolower(s[i]);
+    return lower_case;
+}
+
 #include "note.h"
 
 std::list<Note> notes_list;
 
 #include "datamanager.h"
 
-//GENERAL METHOD DEFS
-bool in_list(std::string search_for, std::list<std::string> search_in){
-
-}
 
 #endif

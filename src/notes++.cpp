@@ -15,7 +15,13 @@
 using namespace std;
 
 int main(){
-    cout<<"Welcome to Notes++: The Next Iteration in Note Oganization (TM)" <<endl;
+    system("clear");
+    // All this funky formatting amirite <https://en.wikipedia.org/wiki/ANSI_escape_code#graphics>
+    cout<<"\033[1;93m╔═════════════════════════════════════════════╗" << endl
+                  <<"║             Welcome to Notes++:             ║" << endl << "║\033[0m"
+                  <<"\033[3;93m The Next Iteration in Note Oganization (TM) \033[0m" << "\033[1;93m║" <<  endl
+                  <<"╚═════════════════════════════════════════════╝\033[0m" << endl <<endl;
+
     bool continuity = true;
     string selection = "";
 
@@ -27,9 +33,14 @@ int main(){
     // Load masterfile and the global variables.
     load("masterfile");
     list_comparer();
-    
+    cout << endl;
+    cout << "\033[1mType your command or 'help' if you need it.\033[0m";
     while(continuity){
-        cout<<endl <<"Type your command or 'help' if you need it: ";
+        if(currentFolder == ""){
+            cout<<endl << "\033[1m: \033[0m";
+        }else{
+            cout<<endl << "\033[1m(" <<  currentFolder << "): \033[0m";
+        }
         
         //Record the command for inspection
         string line, keyword;
@@ -45,18 +56,20 @@ int main(){
         
         //help command is typed, provide a list of legal commands
         if(commands[0].compare("help") == 0 && commands.size() == 1){
-            cout<<endl <<"In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands: "<<endl;
-            cout<<endl <<"---> exit: allows you to exit the program."<<endl
-            <<endl <<"---> new FILE: allows you to create a new file with name FILE in current directory."<<endl
-            <<endl <<"---> rm FILE: removes file with name FILE in current directory."<<endl
-            <<endl <<"---> mkdir FOLDERNAME: allows you to create a folder with name FOLDERNAME."<<endl
-            <<endl <<"---> mv FILENAME TO_FOLDERNAME: allows you to move a specific note (FILENAME) to a specific folder (FOLDERNAME)."<<endl
-            <<endl <<"---> tag add FILE TAG: allows you to add a tag (TAG) to a specific file (FILE)."<<endl
-            <<endl <<"---> tag rm FILE TAG: allows you to remove a tag (TAG) to a specific file (FILE)."<<endl
-            <<endl <<"---> ls notes: list all notes by name."<<endl
-            <<endl <<"---> ls tags: list all tags currently being used."<<endl
-            <<endl <<"---> ls folders: list all folders currently being used."<<endl
-            <<endl <<"---> search KEYWORD: searchs all notes (name, tags, folders, or body text) for KEYWORD."<<endl;
+            cout << endl <<"   In Notes++, you manage, create, and search notes using commands. Below is a list of legal commands "<<endl;
+            cout <<"┌───────────────────┄ \033[1mnew FILE\033[0m : create FILE in the current directory. ┄─────────────────────────────────┐"<<endl
+                 <<"├────────────────────┄ \033[1mrm FILE\033[0m : removes FILE in current directory. ┄────────────────────────────────────┤"<<endl
+                 <<"├───────────┄ \033[1mmkdir FOLDERNAME\033[0m : create new folder with name FOLDERNAME. ┄───────────────────────────────┤"<<endl
+                 <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
+                 <<"├──┄ \033[1mmv FILENAME TO_FOLDERNAME\033[0m : move a file: FILENAME to a folder: FOLDERNAME. ┄────────────────────────┤"<<endl               
+                 <<"├───────────┄ \033[1mtag add FILE TAG\033[0m : adds tag: TAG to a file: FILE. ┄────────────────────────────────────────┤"<<endl
+                 <<"├────────────┄ \033[1mtag rm FILE TAG\033[0m : removes a tag: TAG to file: FILE. ┄─────────────────────────────────────┤"<<endl
+                 <<"├───────────────────┄ \033[1mls notes\033[0m : lists all notes by name in current directory. ┄─────────────────────────┤"<<endl
+                 <<"├────────────────────┄ \033[1mls tags\033[0m : lists all tags currently being used.  ┄─────────────────────────────────┤"<<endl
+                 <<"├───────────────┄ \033[1mls tags FILE\033[0m : lists all tags currently associated with file in current directory. ┄───┤"<<endl
+                 <<"├─────────────────┄ \033[1mls folders\033[0m : list all folders currently being used. ┄────────────────────────────────┤"<<endl
+                 <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
+                 <<"└───────────────────────┄ \033[1mexit\033[0m : exits the program. ┄────────────────────────────────────────────────────┘"<<endl;
             commands.clear();
         }
         
@@ -68,11 +81,11 @@ int main(){
             
             if(commands[1].compare("../") == 0){
                 currentFolder = "";
-                cout<<"The user has changed the directory to the root directory." <<endl;
+                cout<<"Changed the directory to the root directory." <<endl;
             }else{
                 if(exists == 0){        
                     currentFolder = commands[1];
-                    cout<<"The user has changed the directory to: "<<currentFolder <<endl;
+                    cout<<"Changed the directory to: "<<currentFolder <<endl;
                     cout<<endl;
                 }else{
                     cout << "Error: That folder doesn't exist yet.";
@@ -83,7 +96,7 @@ int main(){
         
         // Make new file in the current directory - Seems to work
         else if(commands[0].compare("new") == 0 && commands.size() == 2){
-            cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
+            //cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
             
             vector<Note> specifiedFolder;
 
@@ -114,7 +127,7 @@ int main(){
                     system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 }
             }else{
-                cout << "Error: No file extension.";
+                cout << "Error: No file extension given.";
             }
 
             commands.clear();
@@ -124,13 +137,13 @@ int main(){
 
         // Remove file in the current directory - NOT YET WORKING
         else if(commands[0].compare("rm") == 0 && commands.size() == 2){
-            cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
+            //cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
 
         }
         
         // Make new folder - Seems to work
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
-            cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
+            //cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
             if(currentFolder != ""){
                 // NESTED FOLDERS CURRENTLY NOT IMPLEMENTED
                 cout << "Error: Nested folders currently not implemented.";
@@ -147,7 +160,7 @@ int main(){
         
         // Moving files, needs more test cases
         else if(commands[0].compare("mv") == 0 && commands.size() == 3){
-            cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2]<<endl;
+            //cout<<"The user wants to move FILENAME: "<<commands[1] <<" to FOLDERNAME: " <<commands[2]<<endl;
             string fileName = commands[1];
             string folderName = commands[2];
             
@@ -238,7 +251,7 @@ int main(){
         
         // Add a tag to a file - Seems to work
         else if(commands[0].compare("tag") == 0 && commands[1].compare("add") == 0 && commands.size() == 4){
-            cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            //cout<<"The user wants to add a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
             
             string file = commands[2];
             string tag  = commands[3];
@@ -257,20 +270,27 @@ int main(){
         
         // Remove tag from file, not currenlty implemented
         else if(commands[0].compare("tag") == 0 && commands[1].compare("rm") == 0 && commands.size() == 4){
-            cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
+            //cout<<"The user wants to remove a TAG: " <<commands[3] <<" to FILE: "<<commands[2];
             
-//            string file = commands[2];
-//            string tag= commands[3];
-//            
-//            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-//                if((*iter_note).name.compare("file") != 0 && (*iter_note).folder.compare(currentFolder) != 0){
-//                    continue;
-//                }
-//                else{
-//                    (*iter_note).remove_tag(tag);
-//                    break;
-//                }
-//            }
+            bool note_found = false;
+            
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                Note n = *iter_note;
+                if(n.compare_note(commands[2],currentFolder)){
+                    
+                    note_found = true;
+                    
+                    if(n.search_tags(commands[3])){
+                        n.tags.remove(lower(commands[3]));
+                    }else{
+                        cout << "Error: tag not found.";
+                    }
+                }
+            }
+
+            if(!note_found){
+                cout << "Error: note not found.";
+            }
             
             commands.clear();
             cout<<endl;
@@ -283,10 +303,10 @@ int main(){
             continuity = false;
         }
 
-        
+        // TODO improve table layout printing
         //Print Notes
         else if(commands[0].compare("ls") == 0 && commands[1].compare("notes") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out NOTES!" <<endl;
+            //cout<<"The user wants to print out NOTES!" <<endl;
             int count = 0;
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
@@ -296,10 +316,10 @@ int main(){
                 }
                 // Only print out the notes in the folder that we are in
                 if(currentFolder == ""){
-                    cout<<(*iter_note).name<<"  ";
+                    cout<<(*iter_note).name<<"\t\t";
                 }else{
                     if((*iter_note).folder == currentFolder){
-                        cout<<(*iter_note).name<<"  ";
+                        cout<<(*iter_note).name<<"\t\t";
                     }
                 }
                 count++;
@@ -312,15 +332,41 @@ int main(){
 
         //Print Tags
         else if(commands[0].compare("ls") == 0 && commands[1].compare("tags") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out TAGS!" <<endl;
+            //cout<<"The user wants to print out TAGS!" <<endl;
             int count  = 0;
             for(iter = tags_list.begin(); iter != tags_list.end(); iter++){
                 if(count == 3){
                     count = 0;
                     cout<<endl;
                 }
-                cout<<(*iter)<<"  ";
+                cout<<(*iter)<<"\t\t";
                 count++;
+            }
+            commands.clear();
+            cout<<endl;
+
+        }
+
+        //Print Tags associated with a Note
+        else if(commands[0].compare("ls") == 0 && commands[1].compare("tags") == 0 && commands.size() == 3){
+            //cout<<"The user wants to print out TAGS!" <<endl;
+            int count  = 0;
+
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                Note n = *iter_note;
+
+                // If we find the note, print all the tags associated with it then break.
+                if(n.compare_note(commands[2],currentFolder)){
+                    for(iter = n.tags.begin(); iter != n.tags.end(); iter++){
+                        if(count == 3){
+                            count = 0;
+                            cout<<endl;
+                        }
+                        cout<<(*iter)<<"\t\t";
+                        count++;
+                    }
+                    break;
+                }
             }
             commands.clear();
             cout<<endl;
@@ -329,7 +375,7 @@ int main(){
         
         //Print Folders
         else if(commands[0].compare("ls") == 0 && commands[1].compare("folders") == 0 && commands.size() == 2){
-            cout<<"The user wants to print out FOLDERS!" <<endl;
+            //cout<<"The user wants to print out FOLDERS!" <<endl;
             int count = 0;
             
             for(iter = folder_list.begin(); iter != folder_list.end(); iter++){
@@ -337,22 +383,77 @@ int main(){
                     count = 0;
                     cout<<endl;
                 }
-                cout<<(*iter)<<"  ";
+                cout<<(*iter)<<"\t\t";
                 count++;
             }
             commands.clear();
             cout<<endl;
         }
 
-        else if(commands[0].compare("debug") == 0){
-            for(note_iter = folder_list.begin(); note_iter != folder_list.end(); note_iter++){
-                (*note_iter).debug_print();
+        // Search
+        else if(commands[0].compare("search") == 0){
+            int count = 0;
+            cout << "The following files were found using search term:" << endl;
+
+            keyword = commands[1];
+            bool none_found = true;
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+                // This is the note we are working with.
+                Note n = (*iter_note);
+
+                // Load all notes contents from text files and search through everything
+                n.content = load_contents(n);
+                if(n.search_tags(keyword) || lower(n.folder) == lower(keyword) || lower(n.name) == lower(keyword) || n.search_keyword(keyword)){
+                    if(n.search_tags(keyword)){
+                        cout << endl << "═ \033[1mTAG MATCH\033[0m ══════════════════════════════════════" << endl;
+                    }else if(lower(n.folder) == lower(keyword)){
+                        cout << endl << "═ \033[1mFOLDER MATCH\033[0m ═══════════════════════════════════" << endl;
+                    }else if(lower(n.name) == lower(keyword)){
+                        cout << endl << "═ \033[1mNAME MATCH\033[0m ═════════════════════════════════════" << endl;
+                    }else if(n.search_keyword(keyword)){
+                        cout << endl << "═ \033[1mBODY MATCH\033[0m ═════════════════════════════════════" << endl;
+                    }
+                    cout << "Filename: '" << n.name << "', in folder: '" << n.folder << "'" <<endl;
+                    cout << "──────────────────────────────────────────────────" << endl;
+
+                    // If we found the keyword in the body, highlight it
+                    if(n.search_keyword(keyword)){
+                        int keyword_location = n.content.find(" " + keyword + " ")+1;
+
+                        // This takes care of the rare cases when the keyword is too close to the edge to display
+                        int pre_offset = 10;
+                        int post_offset = 50;
+                        if(keyword_location < 10) pre_offset = keyword_location;
+                        if((n.content.length()-keyword_location) < post_offset) post_offset = (n.content.length()-keyword_location) ;
+
+                        cout << "..." << n.content.substr(keyword_location-pre_offset,pre_offset) 
+                         << "\033[107;30m" << n.content.substr(keyword_location,keyword.length()) << "\033[0m"
+                         << n.content.substr(keyword_location+keyword.length(),post_offset) << "..." << endl;
+                    }else{
+                        cout << n.content.substr(0,50) << "..." << endl;
+                    }
+                    cout << "══════════════════════════════════════════════════" << endl;
+
+                    none_found = false;
+                }
+                
             }
+            if(none_found){
+                cout << "None, no matches were found." << endl;
+            }
+            commands.clear();
+        }
+
+        else if(commands[0].compare("debug") == 0){
+            for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
+               (*iter_note).debug_print();
+            }
+            commands.clear();
         }
         //Invalid input, clear the "Scanner" and Print out Invalid Statement
         else{
             commands.clear();
-            cout<<"You have invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
+            cout<<"Error: Invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
         list_comparer();
         SaveMasterFile();
