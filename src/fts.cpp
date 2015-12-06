@@ -84,7 +84,7 @@ void list_comparer(){
 
     // If there are no detected files, create a help file.
     if(length == 0){
-        cout << endl << "\033[3mNOTICE: No files were found.\033[0m" << endl << endl;                
+/*        cout << endl << "\033[3mNOTICE: No files were found.\033[0m" << endl << endl;                
         cout << endl << "Creating readme.txt file..." << endl << endl;  
 
         std::ofstream newfile;
@@ -92,17 +92,16 @@ void list_comparer(){
         newfile << "Test Test";
 
         newfile.close();
-
+*/
         folder_list.clear();
         notes_list.clear();
         tags_list.clear();
-
+/*
         Note n("README.txt","");
-        notes_list.push_back(n);
+        notes_list.push_back(n);*/
         return;
 
     }
-    
     for (int i=0; i<length; i++)
     {
         bool missing=true;
@@ -110,14 +109,11 @@ void list_comparer(){
         folderName=fileFolder[i+1];
         i=i+1;
         
-
-
         for(list<Note>::iterator iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++)
         {
             if (((*iter_note).compare_note(fileName, folderName))){
                 missing = false;
                 temp_storage.push_back(*iter_note);
-                
             }
         }
         if (missing)
@@ -131,25 +127,25 @@ void list_comparer(){
     // Check if any changes were made
     if (notes_list.size() == 0 && length != 0){
         notes_list = temp_storage;
-        cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
+        //cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl; 
+
     }
 
     list<Note>::iterator iter_note = notes_list.begin();
     for(list<Note>::iterator temp_note = temp_storage.begin(); temp_note != temp_storage.end(); temp_note++){
         //cout << (*temp_note).name << " - " << (*iter_note).name << endl;
+
         if(!(*temp_note).compare_note(*iter_note)){
             notes_list = temp_storage;
-            cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
+            //cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
 
             break;
         }
-        iter_note++;
     }
 
     //Redo the folder list and tags list with new note data
     folder_list.clear();
     tags_list.clear();
-
 
     for(list<Note>::iterator iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
         

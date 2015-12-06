@@ -44,8 +44,4 @@ void debug_printer(){
 }
 
 
-
-#include "datamanager.h"
-
-
 #endif

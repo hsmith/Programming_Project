@@ -11,6 +11,7 @@
 #include "../include/notes++.h"
 #include "load.cpp"
 #include "fts.cpp"
+#include "datamanager.cpp"
 
 using namespace std;
 
@@ -73,7 +74,6 @@ int main(){
                  <<"├────────────────────┄ \033[1mls tags\033[0m : lists all tags currently being used.  ┄─────────────────────────────────┤"<<endl
                  <<"├───────────────┄ \033[1mls tags FILE\033[0m : lists all tags currently associated with file in current directory. ┄───┤"<<endl
                  <<"├─────────────────┄ \033[1mls folders\033[0m : list all folders currently being used. ┄────────────────────────────────┤"<<endl
-                 <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
                  <<"└───────────────────────┄ \033[1mexit\033[0m : exits the program. ┄────────────────────────────────────────────────────┘"<<endl;
             commands.clear();
         }
@@ -128,7 +128,13 @@ int main(){
                 if(!file_exists){
                     Note n(commands[1],currentFolder);
                     notes_list.push_back(n);
-                    system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
+                    int pass = system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
+                    if(pass==0){
+                        cout << "Creating new file...";
+                    }else{
+                        cout << "Error: there was a problem creating a new file.";
+                    }
+
                 }
             }else{
                 cout << "Error: No file extension given.";
@@ -284,6 +290,7 @@ int main(){
                         n->folder = commands[2]; 
                         if(commands[2] == "../") n->folder = "";
                     }
+                    cout << "Moving file...";
                     system(("mv ../notes/" + currentFolder + "/"+commands[1] +" ../notes/" + commands[2]+"/").c_str());
                 }
                 
@@ -307,11 +314,12 @@ int main(){
             
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 if((*iter_note).name == file && (*iter_note).folder == currentFolder){
+                    cout << "Adding tag...";
                     (*iter_note).add_tag(tag);
                     break;
                 }
             }
-            
+            debug_printer();
             commands.clear();
             cout<<endl;
 
