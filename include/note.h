@@ -141,14 +141,14 @@ void Note::debug_print(){
 }
 
 bool Note::compare_note(Note n){
-	return this->name == n.name && 
+	return  this->name == n.name && 
 			this->content == n.content && 
 			this->tags == n.tags && 
 			this->folder == n.folder;
 }
 bool Note::compare_note(std::string name, std::string folder){
 	return this->name == name && 
-			this->folder == folder;
+		   this->folder == folder;
 }
 
 
