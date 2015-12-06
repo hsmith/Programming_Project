@@ -112,7 +112,7 @@ void load(const char* filename){
 					}
 				}
 
-				Note n(note_name,"asdf",note_folder,note_tags);
+				Note n(note_name,"",note_folder,note_tags);
 				
 				//n.debug_print();
 				notes_list.push_back(n);

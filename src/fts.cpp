@@ -43,6 +43,9 @@ vector<string> file_tree_walker()
          
             int temp=directory.find_last_of("/");
             string folder= directory.substr(temp+1,directory.length());
+            if(folder == "notes"){
+                folder = "";
+            }
          
             
             data.push_back(folder);
@@ -78,6 +81,27 @@ void list_comparer(){
     int length=fileFolder.size();
     string fileName;
     string folderName;
+
+    // If there are no detected files, create a help file.
+    if(length == 0){
+        cout << endl << "\033[3mNOTICE: No files were found.\033[0m" << endl << endl;                
+        cout << endl << "Creating readme.txt file..." << endl << endl;  
+
+        std::ofstream newfile;
+        newfile.open("../notes/README.txt", std::ofstream::trunc);
+        newfile << "Test Test";
+
+        newfile.close();
+
+        folder_list.clear();
+        notes_list.clear();
+        tags_list.clear();
+
+        Note n("README.txt","");
+        notes_list.push_back(n);
+        return;
+
+    }
     
     for (int i=0; i<length; i++)
     {
@@ -86,11 +110,14 @@ void list_comparer(){
         folderName=fileFolder[i+1];
         i=i+1;
         
+
+
         for(list<Note>::iterator iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++)
         {
             if (((*iter_note).compare_note(fileName, folderName))){
-                missing=false;
+                missing = false;
                 temp_storage.push_back(*iter_note);
+                
             }
         }
         if (missing)
@@ -101,7 +128,22 @@ void list_comparer(){
         
     }
 
+
+    /*cout << endl;
+    cout << endl;
+    for(list<string>::iterator iter = folder_list.begin(); iter !=  folder_list.end(); iter++){
+        cout << *iter << endl;
+    }
+    cout << endl;
+    cout << endl;*/
+
     // Check if any changes were made
+
+    if (notes_list.size() == 0 && length != 0){
+        notes_list = temp_storage;
+        cout << endl << "\033[3mNOTICE: Discrepencies were found and corrected.\033[0m" << endl << endl;                
+    }
+
     list<Note>::iterator iter_note = notes_list.begin();
     for(list<Note>::iterator temp_note = temp_storage.begin(); temp_note != temp_storage.end(); temp_note++){
         //cout << (*temp_note).name << " - " << (*iter_note).name << endl;
@@ -113,8 +155,27 @@ void list_comparer(){
         }
         iter_note++;
     }
-    
-    
+
+    //Redo the folder list and tags list with new note data
+    folder_list.clear();
+    tags_list.clear();
+    list<string>::iterator findIter = std::find(folder_list.begin(), folder_list.end(), folderName);
+
+    if(findIter == folder_list.end()){
+        folder_list.push_back(folderName); 
+    }
+    for(list<Note>::iterator iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
+        for(list<string>::iterator iter = (*iter_note).tags.begin(); iter !=  (*iter_note).tags.end(); iter++){
+            // Add tags to the list
+            findIter = std::find(tags_list.begin(), tags_list.end(), *iter);
+            if(findIter == tags_list.end()){
+                tags_list.push_back(*iter);
+            }
+        }
+    }
+
+    //cout << endl;
+    //cout << endl;
     
 }
 /*

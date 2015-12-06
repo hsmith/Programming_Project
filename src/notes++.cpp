@@ -86,7 +86,6 @@ int main(){
                 if(exists == 0){        
                     currentFolder = commands[1];
                     cout<<"Changed the directory to: "<<currentFolder <<endl;
-                    cout<<endl;
                 }else{
                     cout << "Error: That folder doesn't exist yet.";
                 }
@@ -137,22 +136,33 @@ int main(){
 
         // Remove file in the current directory - NOT YET WORKING
         else if(commands[0].compare("rm") == 0 && commands.size() == 2){
-            //cout<<"The user wants to create a new FILE with the name: "<<commands[1]<<endl;
-
+            Note n(commands[1],currentFolder);
+            for(iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
+                if((*iter_note).compare_note(n)){
+                    cout << "Removing";
+                    notes_list.erase(iter_note);
+                }
+            }
+            commands.clear();
         }
         
         // Make new folder - Seems to work
         else if(commands[0].compare("mkdir") == 0 && commands.size() == 2){
             //cout<<"The user wants to create a new folder with the FOLDERNAME: "<<commands[1];
-            if(currentFolder != ""){
-                // NESTED FOLDERS CURRENTLY NOT IMPLEMENTED
-                cout << "Error: Nested folders currently not implemented.";
+            if(commands[1] == "notes"){
+                cout << "Error: Notes is a reserved folder name.";
             }else{
-                int exists = system(("mkdir ../notes/" + commands[1]).c_str());
-                if(exists == 0){
-                   folder_list.push_back(commands[1]);
+
+                if(currentFolder != ""){
+                    // NESTED FOLDERS CURRENTLY NOT IMPLEMENTED
+                    cout << "Error: Nested folders currently not implemented.";
                 }else{
-                    cout << "Error: Folder name already exists." << endl;
+                    int exists = system(("mkdir ../notes/" + commands[1]).c_str());
+                    if(exists == 0){
+                        folder_list.push_back(commands[1]);
+                    }else{
+                        cout << "Error: Folder name already exists." << endl;
+                    }
                 }
             }
             commands.clear();
@@ -274,6 +284,7 @@ int main(){
             
             bool note_found = false;
             
+
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 Note n = *iter_note;
                 if(n.compare_note(commands[2],currentFolder)){
@@ -281,19 +292,23 @@ int main(){
                     note_found = true;
                     
                     if(n.search_tags(commands[3])){
-                        n.tags.remove(lower(commands[3]));
+                        cout << "Removing tag from note." << endl;
+                        n.tags.remove(commands[3]);
+                        notes_list.erase(iter_note);
+                        notes_list.push_back(n);
                     }else{
-                        cout << "Error: tag not found.";
+                        cout << "Error: tag not found." << endl;
+
                     }
                 }
             }
-
+            debug_printer();
             if(!note_found){
-                cout << "Error: note not found.";
+                cout << "Error: note not found." << endl;
             }
             
             commands.clear();
-            cout<<endl;
+
         }
 
         
@@ -309,6 +324,13 @@ int main(){
             //cout<<"The user wants to print out NOTES!" <<endl;
             int count = 0;
             
+            if(notes_list.size() == 0){
+                cout << "No notes were found.";
+                commands.clear();
+                cout<<endl;
+                continue;
+            }
+
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 if(count == 3){
                     count = 0;
@@ -325,8 +347,6 @@ int main(){
                 count++;
             }
             commands.clear();
-            cout<<endl;
-
         }
 
 
@@ -334,6 +354,14 @@ int main(){
         else if(commands[0].compare("ls") == 0 && commands[1].compare("tags") == 0 && commands.size() == 2){
             //cout<<"The user wants to print out TAGS!" <<endl;
             int count  = 0;
+
+            if(tags_list.size() == 0){
+                cout << "No tags were found.";
+                commands.clear();
+                cout<<endl;
+                continue;
+            }
+
             for(iter = tags_list.begin(); iter != tags_list.end(); iter++){
                 if(count == 3){
                     count = 0;
@@ -343,7 +371,6 @@ int main(){
                 count++;
             }
             commands.clear();
-            cout<<endl;
 
         }
 
@@ -352,11 +379,25 @@ int main(){
             //cout<<"The user wants to print out TAGS!" <<endl;
             int count  = 0;
 
+            if(tags_list.size() == 0){
+                cout << "No tags were found.";
+                commands.clear();
+                cout<<endl;
+                continue;
+            }
+
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 Note n = *iter_note;
 
+                /*// Catch if there are no tags in the note
+                if(n.tags.size() == 0){
+                    cout << "That note does not exist or it doesn't have any tags." << endl;
+                    break;
+                }*/
+
                 // If we find the note, print all the tags associated with it then break.
                 if(n.compare_note(commands[2],currentFolder)){
+
                     for(iter = n.tags.begin(); iter != n.tags.end(); iter++){
                         if(count == 3){
                             count = 0;
@@ -369,7 +410,6 @@ int main(){
                 }
             }
             commands.clear();
-            cout<<endl;
 
         }
         
@@ -378,6 +418,13 @@ int main(){
             //cout<<"The user wants to print out FOLDERS!" <<endl;
             int count = 0;
             
+            if(folder_list.size() == 0){
+                cout << "No folders were found.";
+                commands.clear();
+                cout<<endl;
+                continue;
+            }
+
             for(iter = folder_list.begin(); iter != folder_list.end(); iter++){
                 if(count == 3){
                     count = 0;
@@ -387,7 +434,6 @@ int main(){
                 count++;
             }
             commands.clear();
-            cout<<endl;
         }
 
         // Search
@@ -457,8 +503,12 @@ int main(){
             commands.clear();
             cout<<"Error: Invalid input. Consider typing 'help' to see a list of eligible commands."<<endl;
         }
+
+        debug_printer();
         list_comparer();
+        debug_printer();
         SaveMasterFile();
+        debug_printer();
 
         
     }
