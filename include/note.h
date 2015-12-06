@@ -13,7 +13,8 @@ class Note{
 
 		bool search_tags(std::string tag);
 		bool search_folder(std::string folder);
-		bool search_keyword(std::string keyword);
+		bool search_content(std::string keyword);
+		bool search_name(std::string name);
 		
 		std::string getFileLine();
 
@@ -78,7 +79,7 @@ bool Note::search_tags(std::string tag){
 		std::string t = *it;
 
 		//std::cout << t << ' ';
-		if(t == tag){
+		if(lower(t) == lower(tag)){
 			return true;
 		}
 	}
@@ -86,14 +87,24 @@ bool Note::search_tags(std::string tag){
 }
 
 bool Note::search_folder(std::string folder){
-	if(folder == this->folder){
+	if(lower((this->folder)).find(lower(folder)) != std::string::npos){
 		return true;
 	}
 	return false;
 }
 
-bool Note::search_keyword(std::string keyword){
-	if(content.find(keyword) != std::string::npos){
+bool Note::search_content(std::string keyword){
+	if(content.find(" " + keyword + " ") != std::string::npos){
+		return true;
+	}
+	return false;
+}
+
+bool Note::search_name(std::string name){
+	if(lower((this->name)).find(lower(name)) != std::string::npos){
+		return true;
+	}
+	if(lower((this->name).substr(0,(this->name).length() - 4)).find(lower(name)) != std::string::npos){
 		return true;
 	}
 	return false;
@@ -147,8 +158,8 @@ bool Note::compare_note(Note n){
 			this->folder == n.folder;
 }
 bool Note::compare_note(std::string name, std::string folder){
-	return this->name == name && 
-		   this->folder == folder;
+	return lower(this->name) == lower(name) && 
+		   lower(this->folder) == lower(folder);
 }
 
 
