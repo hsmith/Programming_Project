@@ -68,8 +68,8 @@ int main(){
                  <<"├───────────┄ \033[1mmkdir FOLDERNAME\033[0m : create new folder with name FOLDERNAME. ┄───────────────────────────────┤"<<endl
                  <<"├─────────────┄ \033[1msearch KEYWORD\033[0m : searches all notes (name, tags, folders, or body text) for KEYWORD. ┄───┤"<<endl
                  <<"├──┄ \033[1mmv FILENAME TO_FOLDERNAME\033[0m : move a file: FILENAME to a folder: FOLDERNAME. ┄────────────────────────┤"<<endl               
-                 <<"├───────────┄ \033[1mtag add FILE TAG\033[0m : adds TAG to FILE. ┄────────────────────────────────────────┤"<<endl
-                 <<"├────────────┄ \033[1mtag rm FILE TAG\033[0m : removes TAG to FILE. ┄─────────────────────────────────────┤"<<endl
+                 <<"├───────────┄ \033[1mtag add FILE TAG\033[0m : adds TAG to FILE. ┄─────────────────────────────────────────────────────┤"<<endl
+                 <<"├────────────┄ \033[1mtag rm FILE TAG\033[0m : removes TAG to FILE. ┄──────────────────────────────────────────────────┤"<<endl
                  <<"├───────────────────┄ \033[1mls notes\033[0m : lists all notes by name in current directory. ┄─────────────────────────┤"<<endl
                  <<"├────────────────────┄ \033[1mls tags\033[0m : lists all tags currently being used.  ┄─────────────────────────────────┤"<<endl
                  <<"├───────────────┄ \033[1mls tags FILE\033[0m : lists all tags currently associated with FILE in current directory. ┄───┤"<<endl
@@ -130,7 +130,7 @@ int main(){
                     notes_list.push_back(n);
                     int pass = system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                     if(pass==0){
-                        cout << "Creating new file...";
+                        //cout << "New file created.";
                     }else{
                         cout << "Error: there was a problem creating a new file.";
                     }
@@ -160,6 +160,8 @@ int main(){
                 int working = system(("gedit ../notes/" + currentFolder + "/"+commands[1]).c_str());
                 if (working != 0){
                     cout << "ERROR: File does not exist.";
+                }else{
+                    //cout << "File opened.";
                 }
             }else{
                 cout << "ERROR: File does not exist.";
@@ -176,7 +178,7 @@ int main(){
         else if(commands[0].compare("rm") == 0 && commands.size() == 2){
             for(iter_note = notes_list.begin(); iter_note !=  notes_list.end(); iter_note++){
                 if((*iter_note).compare_note(commands[1],currentFolder)){
-                    cout << "Removing file." << endl;
+                    //cout << "Removing file." << endl;
                     int exists = system(("rm ../notes/" + currentFolder + "/" + commands[1]).c_str());
                     if(exists == 0){
                         notes_list.erase(iter_note);

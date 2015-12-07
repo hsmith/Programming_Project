@@ -1,9 +1,5 @@
 # Programming Project
 <hr>
-
-To run, execute the following command in the root directory:
-> $ ./src/notes++
-
 ## Group Members:
 Matthew Langford   *mattlangford95@ufl.edu* <br>
 Aaron Myska               *xmyskac@ufl.edu* <br>
@@ -36,4 +32,3 @@ Blake Johnson         *bjohnson293@ufl.edu* <br>
 
 -Future:<br>
  * Auto populate tags based on note contents
- * Better search functioins (auto correcting, etc.)

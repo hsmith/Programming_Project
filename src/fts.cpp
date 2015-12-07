@@ -7,7 +7,7 @@ vector<string> file_tree_walker()
 
     vector<string> data;
     
-    char*s[2];
+    char* s[2];
     s[0]="../notes";
     s[1]= NULL;
     FTS *tree = fts_open(s, FTS_NOCHDIR, 0);

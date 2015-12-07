@@ -58,6 +58,5 @@ int fancySearch(string keyword){
 }
 
 int main(){
-
     cout << endl << fancySearch("twesting") << endl;
 }
