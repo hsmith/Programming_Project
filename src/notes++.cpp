@@ -1,12 +1,4 @@
 //Notes++ Command Line UI
-//Command a Menu asking the user to either:
-//1) Make a File
-//2) Make a Note
-//3) Assign Tags
-//4) Search
-//5) Exit Program
-
-//Error Check: Make sure a proper selection is made!
 
 #include "../include/notes++.h"
 #include "load.cpp"
@@ -17,14 +9,13 @@ using namespace std;
 
 int main(){
     system("clear");
-    // All this funky formatting amirite <https://en.wikipedia.org/wiki/ANSI_escape_code#graphics>
+    // All this funky formatting from <https://en.wikipedia.org/wiki/ANSI_escape_code#graphics>
     cout<<"\033[1;93m╔═════════════════════════════════════════════╗" << endl
                   <<"║             Welcome to Notes++:             ║" << endl << "║\033[0m"
                   <<"\033[3;93m The Next Iteration in Note Oganization (TM) \033[0m" << "\033[1;93m║" <<  endl
                   <<"╚═════════════════════════════════════════════╝\033[0m" << endl <<endl;
 
     bool continuity = true;
-    string selection = "";
 
     string currentFolder = "";
     vector<string> commands;
@@ -321,7 +312,7 @@ int main(){
                     break;
                 }
             }
-            debug_printer();
+            //debug_printer();
             commands.clear();
             cout<<endl;
 
@@ -532,7 +523,7 @@ int main(){
                         // The random substr numbers are to get the display to line up with the body matching print out.
                         cout << n.content.substr(0,50+keyword.length()+10+3) << "..." << endl;
                     }
-                    cout << "══════════════════════════════════════════════════" << endl;
+                    cout << "══════════════════════════════════════════════════" << endl << endl;
 
                     none_found = false;
                 }
@@ -553,7 +544,7 @@ int main(){
         
         //Invalid input, clear the "Scanner" and Print out Invalid Statement
         else{
-            cout<<"ERROR: Invalid input. Try 'help' to see a list of legale commands."<<endl;
+            cout<<"ERROR: Invalid input. Try 'help' to see a list of legal commands."<<endl;
             commands.clear();
         }
 
