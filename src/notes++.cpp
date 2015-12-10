@@ -283,7 +283,7 @@ int main(){
                         n->folder = commands[2]; 
                         if(commands[2] == "../") n->folder = "";
                     }
-                    cout << "Moving file...";
+                    cout << "Moving file.";
                     system(("mv ../notes/" + currentFolder + "/"+commands[1] +" ../notes/" + commands[2]+"/").c_str());
                 }
                 
@@ -305,12 +305,19 @@ int main(){
             string file = commands[2];
             string tag  = commands[3];
             
+            bool found = false;
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
                 if((*iter_note).name == file && (*iter_note).folder == currentFolder){
-                    cout << "Adding tag...";
+
                     (*iter_note).add_tag(tag);
+                    found = true;
                     break;
                 }
+            }
+            if(found){
+                cout << "Tag added.";  
+            }else{
+                cout << "ERROR: note not found.";  
             }
             //debug_printer();
             commands.clear();
@@ -372,17 +379,25 @@ int main(){
             }
 
             for(iter_note = notes_list.begin(); iter_note != notes_list.end(); iter_note++){
-                if(count == 3){
-                    count = 0;
-                    cout<<endl;
-                }
+ 
                 // Only print out the notes in the folder that we are in
                 if(currentFolder == ""){
                     // This syntax prints out a formatted table.
+                    if(count == 3){
+                            count = 0;
+                            cout<<endl;
+                    }
                     cout << left << setw(width) << setfill(separator) << (*iter_note).name;
                 }else{
-                    if((*iter_note).folder == currentFolder)
+                    if((*iter_note).folder == currentFolder){
+                        if(count == 3){
+                            count = 0;
+                            cout<<endl;
+                        }
                         cout << left << setw(width) << setfill(separator) << (*iter_note).name;
+                    }
+
+                        
                 }
                 count++;
             }
@@ -507,7 +522,7 @@ int main(){
 
                     // If we found the keyword in the body, highlight it
                     if(n.search_content(keyword)){
-                        int keyword_location = n.content.find(" " + keyword + " ")+1;
+                        int keyword_location = n.content.find(keyword);
 
                         // This takes care of the rare cases when the keyword is too close to the edge to display
                         int pre_offset = 10;

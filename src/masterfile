@@ -1,19 +1,26 @@
 #Masterfile 
  
 #Tags 
-Programming
-Engineering
-School
-Todo
+easy
+study_this
+hard
 
 #Folders 
-COP_Notes
-3701_Notes
-General_Notes
+COP
+HUM2305
+FOS2001
+CHM2045
 
 #Notes 
-projectTodo.txt;COP_Notes;Programming,Engineering,School,Todo,; 
-note2.txt;COP_Notes;Programming,Engineering,School,; 
-digitallogiclab.txt;3701_Notes;Engineering,School,; 
-note1.txt;General_Notes;; 
-fincialaidnumbers.txt;General_Notes;School,; 
+lecture1.txt;COP;easy,; 
+lecture3.txt;COP;study_this,; 
+lecture2.txt;COP;hard,; 
+metamorphoses_paper.txt;HUM2305;; 
+main_essay.txt;HUM2305;; 
+notes1.txt;HUM2305;; 
+notes2.txt;HUM2305;; 
+assignment5.txt;FOS2001;; 
+assignment6.txt;FOS2001;; 
+assignment1.txt;FOS2001;easy,; 
+Chapters1-3.txt;CHM2045;; 
+Chapters4-6.txt;CHM2045;; 

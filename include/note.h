@@ -94,7 +94,7 @@ bool Note::search_folder(std::string folder){
 }
 
 bool Note::search_content(std::string keyword){
-	if(content.find(" " + keyword + " ") != std::string::npos){
+	if(content.find(keyword) != std::string::npos){
 		return true;
 	}
 	return false;
